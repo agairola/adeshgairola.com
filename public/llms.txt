@@ -1,0 +1,63 @@
+# Adesh Gairola
+
+> Founder of raxIT (AI security · AI agent governance · runtime security on Anthropic Claude). Sydney, Australia. Builder. 15+ years putting security between fast-moving things and things that can't break. Network → Cloud → AI. Ex-AWS Security.
+
+## What I do
+
+- Founder & CTO, raxIT — AI agent governance and runtime security
+- Founder & organiser, AI Security Circle Sydney (monthly, practitioners-only)
+- Speaker, AI Engineer Melbourne 2026 — talk: "Kill the God Agent" (autonomous-agent threat modeling), June 3–4
+- OWASP LLM Top 10 contributor
+
+## Selected work
+
+- AWS ANZ AI Security Consulting Practice — built and operated as a $4M business inside AWS Professional Services. 150+ enterprise pre-sales engagements. Apr 2023 – Dec 2025.
+- AWS Threat Composer (AI threat-modeling framework) — co-authored STRIDE + MAESTRO framework adopted by AWS teams 2024–2025. Productised in AWS Threat Composer.
+- AWS Control Tower Proactive Controls — led the project to ship native CloudFormation Hooks-based proactive controls deployed across the AWS customer fleet.
+- Multi-modal content moderation for ANZ enterprise GenAI — adopted by multiple Tier-1 Australian banks for centralized internal GenAI platforms.
+- model-scanner (open source) — Apache 2.0 Claude Code skill. Scans ML model files, scores risk 0–100, maps to OWASP LLM Top 10 and Australian ISM-2072. https://github.com/raxITlabs/skills
+- GrayZoneBench (open source) — Apache 2.0 AI safety benchmark for frontier-model gray-zone requests. https://github.com/raxITlabs/GrayZoneBench
+- mcp-oauth-sample (open source) — OAuth 2.1 + MCP server reference implementation on Vercel. https://github.com/raxITlabs/mcp-oauth-sample
+- DirePhish (open source) — AI-agent red-team simulator that clones your team into agents and runs the breach 100 times under regulatory time-bounds.
+
+## Writing
+
+- [TRUST ME BRO is not a security control](https://raxitlabs.com/blogs/claude-47-five-layers-cyber-blocking) — Claude Opus 4.7 system card threat model. The trust boundary moved inside the model. April 2026.
+- [Reflections on Trusting Trust, 42 years later](https://raxitlabs.com/blogs) — axios npm compromise. We've automated the blast radius.
+- [Seems Legit](https://raxitlabs.com/blogs) — model-file vulnerability class. vLLM CVSS 10. 83% of HuggingFace models still ship pickle.
+- [Why Apple spent millions protecting a tiny green dot](https://raxitlabs.com/blogs) — Memory Integrity Enforcement. Don't make the guard stronger. Put the guard somewhere nobody can enter.
+
+## How I think
+
+- Business first. Security in service of the outcome the business wants.
+- First principles. Start from the problem, not the checklist.
+- Practitioner-first. 150+ audits. Tools shipped. Regulation translated into code, not slides.
+- Pattern recognition. Same problems, different scales. Name the pattern.
+- Paranoia as compass. The thing that makes me uncomfortable is usually the thing worth building for.
+- Think Big. Small bets are a tax on time.
+
+## Background
+
+- Dec 2025 – present: Founder & CTO, raxIT
+- Apr 2023 – Dec 2025: Senior Security Consultant, AWS
+- Sep 2017 – Apr 2023: Security Consultant / Cloud Architect / Cloud Security Engineer, AWS
+- Jun 2012 – Aug 2017: SME / Security Customer Support Engineer, Cisco
+- 2009 – 2012: Network Security Engineer, HCLTech / Infosys / vCustomer
+
+## Education and credentials
+
+- B.Tech, Computer Science, College of Engineering Roorkee (2005–2009)
+- Cisco CCIE Security
+- AWS Solutions Architect Professional
+- AWS Security Specialty
+- IPv6 Forum Certified Security Engineer
+
+## Connect
+
+- Personal site: https://adeshgairola.com
+- LinkedIn: https://linkedin.com/in/adeshgairola/
+- GitHub: https://github.com/agairola
+- Substack ("Stuck-in-Active"): https://agairola.substack.com/
+- raxIT Labs blog: https://raxitlabs.com/blogs
+- YouTube (raxIT Labs): https://youtube.com/@raxITLabs
+- Email: hi@adeshgairola.com

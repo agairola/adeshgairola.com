@@ -1,0 +1,134 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono';
+import '../styles/global.css';
+import { SEO } from 'astro-seo';
+import buildInfo from '../build-info.json';
+import {
+	SITE_TITLE,
+	LINKEDIN_URL,
+	GITHUB_URL,
+	SUBSTACK_URL,
+	YOUTUBE_URL,
+	RAXIT_URL,
+	EMAIL,
+} from '../consts';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const { title, description, image = '/og-image.png' } = Astro.props;
+const fullTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
+const ogImageURL = new URL(image, Astro.site).toString();
+
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const PERSON_ID = `${siteOrigin}/#person`;
+const ORG_ID = `${RAXIT_URL.replace(/\/$/, '')}/#org`;
+const PROFILE_ID = `${siteOrigin}/#profile`;
+
+// JSON-LD @graph: bundles Person + Organization + ProfilePage with cross-references.
+// Helps AI answer engines (ChatGPT, Perplexity, Claude, Google AI Overviews) treat
+// "Adesh Gairola" and "raxIT" as durable entities rather than orphan strings.
+const ldGraph = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Person',
+			'@id': PERSON_ID,
+			name: 'Adesh Gairola',
+			url: Astro.site?.toString(),
+			image: ogImageURL,
+			jobTitle: 'Founder',
+			email: `mailto:${EMAIL}`,
+			description,
+			worksFor: { '@id': ORG_ID },
+			address: {
+				'@type': 'PostalAddress',
+				addressLocality: 'Sydney',
+				addressCountry: 'AU',
+			},
+			sameAs: [LINKEDIN_URL, GITHUB_URL, SUBSTACK_URL, YOUTUBE_URL],
+			knowsAbout: [
+				'AI Security',
+				'Threat Modeling',
+				'Cloud Security',
+				'AI Agent Governance',
+				'AWS Security',
+				'Model Context Protocol',
+				'OWASP LLM Top 10',
+			],
+		},
+		{
+			'@type': 'Organization',
+			'@id': ORG_ID,
+			name: 'raxIT',
+			url: RAXIT_URL,
+			founder: { '@id': PERSON_ID },
+			description:
+				'AI security company. AI agent governance and runtime security on Anthropic Claude.',
+			sameAs: ['https://www.linkedin.com/company/raxit-labs/'],
+		},
+		{
+			'@type': 'ProfilePage',
+			'@id': PROFILE_ID,
+			url: canonicalURL,
+			name: fullTitle,
+			mainEntity: { '@id': PERSON_ID },
+			about: { '@id': PERSON_ID },
+			dateModified: buildInfo.builtAtISO,
+			inLanguage: 'en-AU',
+		},
+	],
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<meta name="generator" content={Astro.generator} />
+
+<SEO
+	title={fullTitle}
+	description={description}
+	canonical={canonicalURL}
+	openGraph={{
+		basic: {
+			title: fullTitle,
+			type: 'website',
+			image: ogImageURL,
+			url: canonicalURL,
+		},
+		optional: {
+			description,
+			siteName: SITE_TITLE,
+			locale: 'en_AU',
+		},
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		title: fullTitle,
+		description,
+		image: ogImageURL,
+	}}
+	extend={{
+		meta: [
+			{ name: 'author', content: 'Adesh Gairola' },
+			{
+				name: 'keywords',
+				content:
+					'AI security, threat modeling, cloud security, AI agents, raxIT, Adesh Gairola',
+			},
+			{ name: 'robots', content: 'index, follow' },
+		],
+	}}
+/>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(ldGraph)} />

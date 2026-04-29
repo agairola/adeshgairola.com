@@ -1,0 +1,498 @@
+/* Editorial Riso Cobalt — warm paper, ink black, cobalt accent */
+:root {
+	--bg: #f8f4ed;
+	--fg: #161616;
+	--fg-muted: #605a4f;
+	--fg-subtle: #8a8478;
+	--rule: #d9d3c5;
+	--accent: #2b5bc4;
+
+	--max-w: 640px;
+
+	--font-serif: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+	--font-sans: 'Inter Variable', system-ui, -apple-system, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0e1217;
+		--fg: #ede7d6;
+		--fg-muted: #a8a294;
+		--fg-subtle: #6a6457;
+		--rule: #232938;
+		--accent: #6a92e8;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: var(--font-serif);
+	font-size: 18px;
+	line-height: 1.65;
+	font-feature-settings: 'kern', 'liga', 'calt';
+	font-variation-settings: 'opsz' 16, 'SOFT' 50;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+main {
+	max-width: var(--max-w);
+	margin: 0 auto;
+	padding: 6rem 1.5rem 4rem;
+}
+
+h1 {
+	font-family: var(--font-serif);
+	font-weight: 500;
+	font-size: 2rem;
+	line-height: 1.15;
+	letter-spacing: -0.012em;
+	font-variation-settings: 'opsz' 144, 'SOFT' 30;
+	margin: 0 0 0.25rem;
+}
+
+h2 {
+	font-family: var(--font-serif);
+	font-weight: 500;
+	font-size: 1.25rem;
+	margin: 2.5rem 0 0.75rem;
+}
+
+h3 {
+	font-family: var(--font-serif);
+	font-weight: 600;
+	font-size: 1.05rem;
+	letter-spacing: -0.005em;
+	margin: 0 0 0.5rem;
+	color: var(--fg);
+}
+
+/* — Tagline + locale (under h1) — */
+
+.tagline {
+	font-family: var(--font-serif);
+	font-style: italic;
+	font-size: 1.15rem;
+	color: var(--fg-muted);
+	margin: 0 0 0.75rem;
+	font-weight: 400;
+	font-variation-settings: 'opsz' 36, 'SOFT' 70;
+}
+
+.locale {
+	font-family: var(--font-mono);
+	font-size: 0.78rem;
+	color: var(--fg-muted);
+	margin: 0 0 2rem;
+}
+
+/* — Code blocks — */
+
+.code-block {
+	font-family: var(--font-mono);
+	font-size: 0.85rem;
+	background: rgba(43, 91, 196, 0.05);
+	border-left: 2px solid var(--accent);
+	padding: 0.85rem 1rem;
+	margin: 1.25rem 0 1.5rem;
+	overflow-x: auto;
+	border-radius: 0 3px 3px 0;
+	color: var(--fg);
+	line-height: 1.55;
+	white-space: pre;
+}
+
+.code-block code {
+	font-family: inherit;
+	background: none;
+	padding: 0;
+	color: inherit;
+}
+
+.code-block.install {
+	font-size: 0.78rem;
+	padding: 0.45rem 0.8rem;
+	margin: 0.5rem 0 0.75rem;
+	display: inline-block;
+	max-width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+	.code-block {
+		background: rgba(106, 146, 232, 0.1);
+	}
+}
+
+/* — Mission (italic pull-quote-lite under bio) — */
+
+.mission {
+	font-family: var(--font-serif);
+	font-style: italic;
+	color: var(--fg-muted);
+	font-size: 0.98rem;
+	border-left: 1px solid var(--rule);
+	padding-left: 1rem;
+	margin: 1rem 0 0.5rem;
+}
+
+p {
+	margin: 0 0 1.25rem;
+}
+
+a {
+	color: var(--fg);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+	text-decoration-color: var(--fg-subtle);
+	transition: text-decoration-color 0.15s ease, color 0.15s ease;
+}
+
+a:hover {
+	text-decoration-color: var(--accent);
+	color: var(--accent);
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid var(--rule);
+	margin: 3rem 0;
+}
+
+/* — Eyebrow / section label — */
+
+.eyebrow {
+	display: block;
+	font-family: var(--font-sans);
+	font-size: 0.7rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--fg-muted);
+	font-weight: 500;
+	margin: 3rem 0 1rem;
+}
+
+/* — Lists — */
+
+ul.bare {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 1.5rem;
+}
+
+ul.glyph li {
+	padding: 0.25rem 0;
+	display: flex;
+	gap: 0.75rem;
+	align-items: baseline;
+}
+
+ul.glyph li::before {
+	content: '◇';
+	color: var(--accent);
+	font-size: 0.7em;
+	flex: 0 0 auto;
+	transform: translateY(-1px);
+}
+
+/* — Philosophy: italic pull-quote with cobalt rule — */
+
+ul.philosophy {
+	border-left: 2px solid var(--accent);
+	padding-left: 1.25rem;
+	margin-left: 0.25rem;
+}
+
+ul.philosophy li {
+	padding: 0.35rem 0;
+	font-style: italic;
+	font-size: 1.05rem;
+	color: var(--fg);
+}
+
+/* — Feed items — */
+
+ul.feed li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.5rem 0.75rem;
+	padding: 0.4rem 0;
+	border-bottom: 1px dashed transparent;
+}
+
+.feed-source {
+	font-family: var(--font-mono);
+	font-size: 0.68rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--fg-muted);
+	flex: 0 0 auto;
+	min-width: 4.25rem;
+}
+
+.feed-link {
+	flex: 1 1 220px;
+	min-width: 0;
+}
+
+.feed-date {
+	font-family: var(--font-mono);
+	font-size: 0.7rem;
+	color: var(--fg-subtle);
+	flex: 0 0 auto;
+	font-feature-settings: 'tnum' 1;
+}
+
+/* — Inline meta line — */
+
+.meta {
+	font-family: var(--font-mono);
+	font-size: 0.78rem;
+	color: var(--fg-muted);
+	margin-top: 0.5rem;
+}
+
+.meta.credentials {
+	font-family: var(--font-serif);
+	font-size: 0.92rem;
+	line-height: 1.6;
+	color: var(--fg-muted);
+}
+
+.meta.credentials strong {
+	color: var(--fg);
+	font-weight: 600;
+}
+
+/* — Currently — */
+
+ul.currently li {
+	padding: 0.4rem 0;
+	margin-bottom: 0.4rem;
+	line-height: 1.6;
+}
+
+ul.currently li strong {
+	font-weight: 600;
+}
+
+/* — Selected work — */
+
+.work-entry {
+	margin: 0 0 2.25rem;
+}
+
+.work-entry:last-of-type {
+	margin-bottom: 1rem;
+}
+
+.work-entry p {
+	margin: 0 0 0.5rem;
+}
+
+.work-date {
+	font-family: var(--font-mono);
+	font-size: 0.7rem;
+	color: var(--fg-subtle);
+	letter-spacing: 0.04em;
+	display: inline-block;
+	margin-top: 0.25rem;
+}
+
+.work-repo {
+	font-family: var(--font-mono);
+	font-size: 0.78rem;
+	color: var(--fg-muted);
+	margin: 0.4rem 0;
+}
+
+/* — Writing entries with bracket titles — */
+
+ul.writing li {
+	padding: 0.45rem 0;
+	line-height: 1.6;
+}
+
+.bracket-title {
+	font-style: italic;
+	font-weight: 500;
+}
+
+.bracket-title::before {
+	content: '[';
+	color: var(--accent);
+	font-style: normal;
+	font-weight: 500;
+	margin-right: 0.05em;
+}
+
+.bracket-title::after {
+	content: '].';
+	color: var(--accent);
+	font-style: normal;
+	font-weight: 500;
+	margin-left: 0.05em;
+}
+
+.writing-date {
+	font-family: var(--font-mono);
+	font-size: 0.7rem;
+	color: var(--fg-subtle);
+	margin-left: 0.35rem;
+	white-space: nowrap;
+}
+
+/* — How I think (principles) — */
+
+ul.principles {
+	margin-bottom: 1.5rem;
+}
+
+ul.principles li {
+	padding: 0.5rem 0;
+	line-height: 1.6;
+}
+
+ul.principles li strong {
+	font-family: var(--font-serif);
+	font-weight: 600;
+	font-style: italic;
+}
+
+/* — Background table — */
+
+.bg-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1rem 0 1.5rem;
+}
+
+.bg-table td {
+	padding: 0.55rem 0.5rem 0.55rem 0;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid var(--rule);
+	font-size: 0.95rem;
+}
+
+.bg-table tr:last-child td {
+	border-bottom: none;
+}
+
+.bg-table td.period {
+	font-family: var(--font-mono);
+	font-size: 0.7rem;
+	color: var(--fg-subtle);
+	white-space: nowrap;
+	width: 11rem;
+	padding-right: 0.75rem;
+	letter-spacing: 0.02em;
+}
+
+.bg-table .role {
+	color: var(--fg);
+}
+
+.bg-table .org-sep {
+	color: var(--fg-subtle);
+}
+
+.bg-table .org {
+	color: var(--fg-muted);
+}
+
+/* — Sign-off — */
+
+.signoff {
+	font-family: var(--font-mono);
+	font-size: 0.95rem;
+	color: var(--fg-muted);
+	margin: 2rem 0 0;
+}
+
+/* — Footer — */
+
+footer.colophon {
+	margin-top: 5rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--rule);
+	font-family: var(--font-mono);
+	font-size: 0.7rem;
+	color: var(--fg-subtle);
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+/* — Responsive — */
+
+@media (max-width: 640px) {
+	body {
+		font-size: 17px;
+	}
+	main {
+		padding: 3.5rem 1.25rem 3rem;
+	}
+	h1 {
+		font-size: 1.75rem;
+	}
+	.feed-source {
+		min-width: auto;
+	}
+	.bg-table td.period {
+		width: auto;
+		display: block;
+		padding: 0.5rem 0 0.2rem;
+		font-size: 0.65rem;
+	}
+	.bg-table td.role-org {
+		display: block;
+		padding: 0 0 0.6rem;
+	}
+	.bg-table tr {
+		display: block;
+		border-bottom: 1px solid var(--rule);
+		padding: 0.4rem 0;
+	}
+	.bg-table tr:last-child {
+		border-bottom: none;
+	}
+	.bg-table td {
+		border-bottom: none;
+	}
+	.code-block {
+		font-size: 0.78rem;
+		padding: 0.7rem 0.85rem;
+	}
+}
+
+/* — Accessibility — */
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		transition: none !important;
+		animation: none !important;
+	}
+}

@@ -1,0 +1,268 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import buildInfo from '../build-info.json';
+import {
+	SITE_TITLE,
+	SITE_DESCRIPTION,
+	SUBSTACK_URL,
+	RAXIT_URL,
+	RAXIT_BLOG_URL,
+	LINKEDIN_URL,
+	LINKEDIN_ACTIVITY_URL,
+	GITHUB_URL,
+	EMAIL,
+} from '../consts';
+
+const lastBuilt = buildInfo.builtAt;
+
+const profileJson = `{
+  "profile": "AI security nerd",
+  "mission": "return ResponsibleAI();"
+}`;
+
+const connectCode = `if (curious || building || securing) {
+  let's_connect();
+}`;
+
+const selectedWork = [
+	{
+		title: 'AWS ANZ AI Security Consulting Practice',
+		body: `Built and operated as a $4M business inside AWS Professional Services. $0 to $4M ARR across 150+ enterprise pre-sales engagements spanning financial services, government, resources, telecom, and professional services. Co-built the APJ AI Security specialist team (11 specialists across AU, NZ, Singapore, India, Korea, Japan) that became the region's center of expertise. Defined the AI/ML security review methodology adopted regionally.`,
+		date: 'Apr 2023 – Dec 2025',
+	},
+	{
+		title: 'AWS Threat Composer · AI threat-modeling framework',
+		body: `Co-authored the AI / agentic-application threat-modeling framework (STRIDE + MAESTRO) adopted by AWS teams through 2024–2025. Productised as part of AWS Threat Composer, AWS Labs' open-source threat-modeling ecosystem.`,
+		date: '2024 – 2025',
+	},
+	{
+		title: 'AWS Control Tower · Proactive Controls',
+		body: `Led the project to ship native Proactive Controls in AWS Control Tower (CloudFormation Hooks). Now deployed across the AWS customer fleet, preventing non-compliant resources at policy time rather than detecting after deployment.`,
+		date: 'Apr 2023 – Dec 2025',
+	},
+	{
+		title: 'Multi-modal content moderation for ANZ enterprise GenAI platforms',
+		body: `Built and shipped the AWS multi-modal content-moderation offering adopted by multiple Tier-1 Australian banks for their centralized internal GenAI platforms. Modular toxicity guardrails with first-class exception handling, fine-tuned across media, telecom, and FSI deployments.`,
+		date: 'Apr 2023 – Dec 2025',
+	},
+	{
+		title: 'model-scanner · open source',
+		body: `Apache 2.0 Claude Code skill. Runs four independent scanners on ML model files, scores risk 0–100, maps findings to OWASP LLM Top 10 and Australian ISM-2072 (the first government framework to mandate non-executable model formats).`,
+		install: 'npx skills add raxITlabs/skills@model-scanner',
+		repo: 'https://github.com/raxITlabs/skills',
+		date: 'Released 2025',
+	},
+	{
+		title: 'GrayZoneBench · open source',
+		body: `Apache 2.0 AI safety benchmark. Tests how frontier models handle tricky gray-zone requests, the kind that sit between "obviously safe" and "obviously refuse." CLI for running benchmarks, web dashboard for exploring results.`,
+		repo: 'https://github.com/raxITlabs/GrayZoneBench',
+		date: 'Released 2025',
+	},
+	{
+		title: 'mcp-oauth-sample · open source',
+		body: `OAuth 2.1 authorization plus an MCP server on Vercel for MCP clients. Real-time analytics and threat detection. Reference implementation for securing the Model Context Protocol ecosystem.`,
+		repo: 'https://github.com/raxITlabs/mcp-oauth-sample',
+		date: 'Released 2025',
+	},
+	{
+		title: 'DirePhish · open source',
+		body: `AI-agent red-team simulator. Hand it your company URL. It clones your team into agents, drops a threat actor into Slack and email, and runs the breach 100 times under regulatory time-bounds (GDPR 72h, insurance 48h). You get a distribution of how your org actually behaves under pressure. Not what the binder says.`,
+		date: 'Released April 2026',
+	},
+	{
+		title: 'Cisco APAC VPN Security Team',
+		body: `Led 30 engineers supporting AT&T, BT, and Verizon enterprise networks. Built Python and Shell automation that cut MTTR on customer escalations and was adopted across the global TAC.`,
+		date: 'Jun 2012 – Aug 2017',
+	},
+];
+
+const featuredWriting = [
+	{
+		title: 'TRUST ME BRO is not a security control',
+		body: 'Claude Opus 4.7 system card threat model. The trust boundary moved inside the model.',
+		url: 'https://raxitlabs.com/blogs/claude-47-five-layers-cyber-blocking',
+		date: 'Apr 2026',
+	},
+	{
+		title: 'Reflections on Trusting Trust, 42 years later',
+		body: `axios npm compromise. We've automated the blast radius.`,
+		url: RAXIT_BLOG_URL,
+		date: '',
+	},
+	{
+		title: 'Seems Legit',
+		body: 'model-file vulnerability class. vLLM CVSS 10. 83% of HuggingFace models still ship pickle.',
+		url: RAXIT_BLOG_URL,
+		date: '',
+	},
+	{
+		title: 'Why Apple spent millions protecting a tiny green dot',
+		body: `Memory Integrity Enforcement. Don't make the guard stronger. Put the guard somewhere nobody can enter.`,
+		url: RAXIT_BLOG_URL,
+		date: '',
+	},
+];
+
+const principles = [
+	{ name: 'Business first.', body: 'Security in service of the outcome the business wants. Not a moat, not a department, not a binder.' },
+	{ name: 'First principles.', body: `Start from the problem. What protects the system while I'm AFK?` },
+	{ name: 'Practitioner-first.', body: '150+ audits. Tools shipped. Regulation translated into code, not slides.' },
+	{ name: 'Pattern recognition.', body: 'Same problems, different scales. Name the pattern.' },
+	{ name: 'Paranoia as compass.', body: 'The thing that makes me uncomfortable is usually the thing worth building for.' },
+	{ name: 'Think Big.', body: 'Small bets are a tax on time. The interesting work is at scope.' },
+];
+
+const background = [
+	{ period: 'Dec 2025 – present', role: 'Founder & CTO', org: 'raxIT' },
+	{ period: 'Apr 2023 – Dec 2025', role: 'Senior Security Consultant', org: 'AWS' },
+	{ period: 'Sep 2017 – Apr 2023', role: 'Security Consultant · Cloud Architect · Cloud Security Engineer', org: 'AWS' },
+	{ period: 'Jun 2012 – Aug 2017', role: 'SME / Security Customer Support Engineer', org: 'Cisco' },
+	{ period: '2009 – 2012', role: 'Network Security Engineer', org: 'HCLTech · Infosys · vCustomer' },
+];
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<main>
+			<h1>Adesh Gairola</h1>
+			<p class="tagline">Builder. At enterprise scale.</p>
+			<p class="locale">
+				Sydney · <a href={LINKEDIN_URL}>LinkedIn</a> · <a href={GITHUB_URL}>GitHub</a> ·
+				<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+			</p>
+
+			<span class="eyebrow">What I do</span>
+			<pre class="code-block"><code>{profileJson}</code></pre>
+			<p>
+				15+ years putting security between things that move fast and things you can't afford
+				to break. Network. Cloud. Now AI.
+			</p>
+			<p>
+				I build practices, platforms, and tools at enterprise scale. Always starting from the
+				business outcome, not the security checklist. Not weekend projects.
+			</p>
+			<p>
+				Three times at increasing scope: 30-engineer APAC team at Cisco. APJ AI Security
+				specialist team at AWS Professional Services that ran a $4M consulting practice plus
+				two products shipped to the AWS customer fleet. Founding team at <a href={RAXIT_URL}
+					>raxIT</a
+				> today.
+			</p>
+			<p class="mission">
+				Why this — to make powerful AI protection accessible, not just to enterprises with
+				the budget for it.
+			</p>
+
+			<span class="eyebrow">Currently</span>
+			<ul class="bare currently">
+				<li>
+					<strong>Founding <a href={RAXIT_URL}>raxIT</a>.</strong> AI agent governance and
+					runtime security on Anthropic Claude. CTO and founding team. First design partners
+					signed across financial services, SaaS, and Australian cybersecurity.
+				</li>
+				<li>
+					<strong>
+						<a href="https://lu.ma/ai-security-sydney">AI Security Circle Sydney</a>.
+					</strong> Founder and organiser. Practitioners only. Monthly.
+				</li>
+				<li>
+					<strong>
+						Speaking. <a href="https://aiengineer.com.au">AI Engineer Melbourne 2026</a>.
+					</strong> <em>Kill the God Agent</em>, autonomous-agent threat modeling. June 3–4.
+				</li>
+			</ul>
+
+			<span class="eyebrow">Selected work</span>
+			{
+				selectedWork.map((w) => (
+					<article class="work-entry">
+						<h3>{w.title}</h3>
+						<p>{w.body}</p>
+						{w.install && (
+							<pre class="code-block install">
+								<code>{w.install}</code>
+							</pre>
+						)}
+						{w.repo && (
+							<p class="work-repo">
+								<a href={w.repo}>{w.repo.replace('https://', '')}</a>
+							</p>
+						)}
+						{w.date && <span class="work-date">{w.date}</span>}
+					</article>
+				))
+			}
+
+			<span class="eyebrow">Writing</span>
+			<p>Long-form analysis on frontier AI security incidents. A few that landed:</p>
+			<ul class="bare writing">
+				{
+					featuredWriting.map((p) => (
+						<li>
+							<a class="bracket-title" href={p.url}>
+								{p.title}
+							</a>{' '}
+							{p.body}
+							{p.date && <span class="writing-date">· {p.date}</span>}
+						</li>
+					))
+				}
+			</ul>
+			<p class="meta">
+				More on <a href={LINKEDIN_ACTIVITY_URL}>LinkedIn</a>, <a href={RAXIT_BLOG_URL}
+					>raxIT Labs</a
+				>, and <a href={SUBSTACK_URL}>Substack</a>.
+			</p>
+
+			<span class="eyebrow">How I think</span>
+			<ul class="bare principles">
+				{
+					principles.map((p) => (
+						<li>
+							<strong>{p.name}</strong> {p.body}
+						</li>
+					))
+				}
+			</ul>
+
+			<span class="eyebrow">Background</span>
+			<table class="bg-table">
+				<tbody>
+					{
+						background.map((b) => (
+							<tr>
+								<td class="period">{b.period}</td>
+								<td class="role-org">
+									<span class="role">{b.role}</span>
+									<span class="org-sep"> · </span>
+									<span class="org">{b.org}</span>
+								</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+			<p class="meta credentials">
+				<strong>Education.</strong> B.Tech, Computer Science, College of Engineering Roorkee
+				(2005–2009). <strong>Certifications.</strong> Cisco CCIE Security · AWS Solutions
+				Architect Professional · AWS Security Specialty · IPv6 Forum Certified Security
+				Engineer. <strong>Recognition.</strong> OWASP LLM Top 10 contributor.
+			</p>
+
+			<span class="eyebrow">Connect</span>
+			<pre class="code-block"><code>{connectCode}</code></pre>
+			<p>
+				<a href={LINKEDIN_URL}>LinkedIn</a> · <a href={GITHUB_URL}>GitHub</a> ·
+				<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+			</p>
+			<p class="signoff">— A</p>
+
+			<footer class="colophon">
+				<span>Last built {lastBuilt}</span>
+			</footer>
+		</main>
+	</body>
+</html>
