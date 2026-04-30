@@ -1,7 +1,7 @@
-// Curated featured posts: hand-picked LinkedIn permalinks with a take line
-// that captures the strongest argument from each post.
-// LinkedIn has no API/RSS for personal posts (verified 2026), so this list
-// is manually maintained. Add posts here when something lands particularly well.
+// Curated highlights: hand-picked links to canonical sources (blog posts, product
+// pages, repos) with a take line in Adesh's voice. Mixed content types.
+// Update when something lands particularly well or you want to direct visitors
+// to a specific artifact.
 
 export type FeaturedPost = {
 	title: string;
@@ -13,26 +13,20 @@ export type FeaturedPost = {
 export const featuredWriting: FeaturedPost[] = [
 	{
 		title: 'TRUST ME BRO is not a security control',
-		take: 'Find the trust boundary, put a control in the middle. That rule just broke. The gateway IS the model now.',
-		url: 'https://www.linkedin.com/posts/adeshgairola_aisecurity-threatmodeling-anthropic-share-7452547854868459520-volP',
+		take: 'The trust boundary moved inside the model. Three zones, five layers of controls Anthropic ships before your prompt hits the API. You inherit the whole stack.',
+		url: 'https://raxitlabs.com/blogs/claude-47-five-layers-cyber-blocking',
 		date: 'Apr 2026',
 	},
 	{
-		title: 'Model access via KYC. Wonder what can go wrong',
-		take: 'KYC didn’t fail because the checks were bad. It failed because everyone assumed the check WAS the security. Now we’re doing it with AI models.',
-		url: 'https://www.linkedin.com/posts/adeshgairola_aisecurity-cybersecurity-aigovernance-share-7450320096658464769-NwO7',
+		title: 'DirePhish',
+		take: 'AI clones of your team running 100 simulated breaches under regulatory time-bounds. A distribution of how you actually behave when the binder goes out the window.',
+		url: 'https://raxitlabs.com/labs/direphish',
 		date: 'Apr 2026',
 	},
 	{
-		title: 'Mythos. Spud. Glasswing. Now what?',
-		take: 'Cloned your team into AI agents. Ran the breach 100 times under regulatory time-bounds. A distribution of how your org actually behaves. Not what the binder says.',
-		url: 'https://www.linkedin.com/posts/adeshgairola_direphish-ai-clones-of-your-team-under-ugcPost-7449639942915506176-Cqe0',
-		date: 'Apr 2026',
-	},
-	{
-		title: 'A personal one',
-		take: 'Why do we keep trying to buy our way out of problems we can only architect our way out of?',
-		url: 'https://www.linkedin.com/posts/adeshgairola_a-personal-one-i-believe-the-people-building-share-7449279627036098560-HykB',
-		date: 'Apr 2026',
+		title: 'securing-ralph-loop',
+		take: 'Security checks bolted into the Ralph coding-agent loop. Scan before commit, fix iteratively, escalate when stuck. The AI-for-security thesis, as code.',
+		url: 'https://github.com/agairola/securing-ralph-loop',
+		date: 'Feb 2026',
 	},
 ];

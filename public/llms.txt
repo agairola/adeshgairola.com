@@ -30,12 +30,13 @@
 - crucible (open source): Configurable enterprise simulation engine. Multi-agent simulation primitive in Python. https://github.com/raxITlabs/crucible
 - securing-ralph-loop (open source): Security checks for the Ralph coding-agent loop. Scan before commit, fix iteratively, escalate when stuck. A practical example of the AI-for-security direction. https://github.com/agairola/securing-ralph-loop
 
-## Featured writing
+## Featured
 
-- [TRUST ME BRO is not a security control](https://raxitlabs.com/blogs/claude-47-five-layers-cyber-blocking): Where the trust boundary went when the model became the gateway. April 2026.
-- [Reflections on Trusting Trust, 42 years later](https://raxitlabs.com/blogs): The axios npm compromise. We've automated the blast radius.
-- [Seems Legit](https://raxitlabs.com/blogs): A whole vulnerability class hiding in model files. vLLM CVSS 10. 83% of HuggingFace models still ship pickle.
-- [Why Apple spent millions protecting a tiny green dot](https://raxitlabs.com/blogs): Memory Integrity Enforcement. Don't make the guard stronger; put the guard somewhere nobody can enter.
+Curated highlights pointing to canonical sources. Three things worth your time right now: a long-form essay, a product, and an open-source release.
+
+- [TRUST ME BRO is not a security control](https://raxitlabs.com/blogs/claude-47-five-layers-cyber-blocking): The trust boundary moved inside the model. Three zones, five layers of controls Anthropic ships before your prompt hits the API. April 2026.
+- [DirePhish](https://raxitlabs.com/labs/direphish): AI clones of your team running 100 simulated breaches under regulatory time-bounds. A distribution of how you actually behave when the binder goes out the window. April 2026.
+- [securing-ralph-loop](https://github.com/agairola/securing-ralph-loop): Security checks bolted into the Ralph coding-agent loop. Scan before commit, fix iteratively, escalate when stuck. The AI-for-security thesis as code.
 
 ## How I think
 
