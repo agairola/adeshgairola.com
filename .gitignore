@@ -26,3 +26,4 @@ pnpm-debug.log*
 
 # generated build metadata (rewritten by predev/prebuild)
 src/build-info.json
+.vercel

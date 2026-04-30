@@ -1,7 +1,6 @@
 ---
-import '@fontsource-variable/fraunces';
-import '@fontsource-variable/inter';
-import '@fontsource/jetbrains-mono';
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
 import '../styles/global.css';
 import { SEO } from 'astro-seo';
 import buildInfo from '../build-info.json';
@@ -23,7 +22,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const { title, description, image = '/og-image.png' } = Astro.props;
-const fullTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
+const fullTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
 const ogImageURL = new URL(image, Astro.site).toString();
 
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
@@ -33,7 +32,7 @@ const PROFILE_ID = `${siteOrigin}/#profile`;
 
 // JSON-LD @graph: bundles Person + Organization + ProfilePage with cross-references.
 // Helps AI answer engines (ChatGPT, Perplexity, Claude, Google AI Overviews) treat
-// "Adesh Gairola" and "raxIT" as durable entities rather than orphan strings.
+// "Adesh Gairola" and "raxIT Labs" as durable entities rather than orphan strings.
 const ldGraph = {
 	'@context': 'https://schema.org',
 	'@graph': [
@@ -66,11 +65,11 @@ const ldGraph = {
 		{
 			'@type': 'Organization',
 			'@id': ORG_ID,
-			name: 'raxIT',
+			name: 'raxIT Labs',
 			url: RAXIT_URL,
 			founder: { '@id': PERSON_ID },
 			description:
-				'AI security company. AI agent governance and runtime security on Anthropic Claude.',
+				'AI security company working two directions: security for AI (governance, threat modeling, runtime guardrails for AI products in production) as the primary focus, and AI for security (using AI to automate threat modeling, detection, and compliance work) as the unusual sideline. Independent labs releasing open-source security tooling alongside the platform.',
 			sameAs: ['https://www.linkedin.com/company/raxit-labs/'],
 		},
 		{
@@ -88,11 +87,17 @@ const ldGraph = {
 ---
 
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="light dark" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" href="/favicon.ico" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+
 <meta name="generator" content={Astro.generator} />
 
 <SEO
@@ -124,7 +129,7 @@ const ldGraph = {
 			{
 				name: 'keywords',
 				content:
-					'AI security, threat modeling, cloud security, AI agents, raxIT, Adesh Gairola',
+					'AI security, threat modeling, cloud security, AI agents, raxIT Labs, Adesh Gairola',
 			},
 			{ name: 'robots', content: 'index, follow' },
 		],

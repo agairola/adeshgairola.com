@@ -1,0 +1,74 @@
+---
+import Page from '../layouts/Page.astro';
+import { now } from '../data/now';
+
+const title = 'Now';
+const description = `What Adesh is currently building, reading, speaking on, and thinking about. Updated ${now.updated}.`;
+---
+
+<Page title={title} description={description} current="/now">
+	<p class="locale">
+		Sydney · <time
+			id="local-time"
+			aria-live="polite"
+			aria-atomic="true"
+			data-static="Loading…">Loading…</time
+		>
+	</p>
+
+	<h1 class="page-title">Now</h1>
+	<p class="page-meta">Last updated {now.updated}.</p>
+
+	<p class="dropcap-paragraph">{now.snapshot}</p>
+
+	<div class="rule" aria-hidden="true"><span>◇</span><span>◇</span><span>◇</span></div>
+
+	{
+		now.sections.map((section, i) => (
+			<>
+				<h2 class="eyebrow">
+					<span class="eyebrow-num">{String(i + 1).padStart(2, '0')}</span>
+					{section.label}
+				</h2>
+				<p>{section.body}</p>
+			</>
+		))
+	}
+
+	<script is:inline>
+		(() => {
+			const el = document.getElementById('local-time');
+			if (!el) return;
+			const fmt = new Intl.DateTimeFormat('en-AU', {
+				timeZone: 'Australia/Sydney',
+				hour: 'numeric',
+				minute: '2-digit',
+				hour12: true,
+			});
+			const tick = () => {
+				const t = fmt.format(new Date());
+				const tzPart = new Intl.DateTimeFormat('en-AU', {
+					timeZone: 'Australia/Sydney',
+					timeZoneName: 'short',
+				})
+					.formatToParts(new Date())
+					.find((p) => p.type === 'timeZoneName');
+				const tz = tzPart ? tzPart.value : 'AEST';
+				el.textContent = `${t} ${tz}`;
+			};
+			let interval;
+			function start() {
+				tick();
+				interval = setInterval(tick, 30_000);
+			}
+			function stop() {
+				clearInterval(interval);
+			}
+			document.addEventListener('visibilitychange', () => {
+				if (document.hidden) stop();
+				else start();
+			});
+			start();
+		})();
+	</script>
+</Page>

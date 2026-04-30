@@ -1,0 +1,18 @@
+---
+import buildInfo from '../build-info.json';
+
+const builtDate = new Date(buildInfo.builtAtISO);
+const formatted = new Intl.DateTimeFormat('en-AU', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric',
+}).format(builtDate);
+---
+
+<footer class="colophon">
+	<span class="issue-stamp" translate="no">№ 001</span>
+	<span class="dot" aria-hidden="true">·</span>
+	<span>Last built <time datetime={buildInfo.builtAtISO}>{formatted}</time></span>
+	<span class="dot" aria-hidden="true">·</span>
+	<span>adeshgairola.com</span>
+</footer>

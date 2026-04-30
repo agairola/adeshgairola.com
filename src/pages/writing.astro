@@ -1,0 +1,94 @@
+---
+import Page from '../layouts/Page.astro';
+import { fetchFeed, mergeAndDedupe, formatRelativeDate } from '../lib/feeds';
+import { featuredWriting } from '../data/featured-writing';
+import {
+	SUBSTACK_URL,
+	SUBSTACK_FEED_URL,
+	RAXIT_BLOG_URL,
+	RAXIT_FEED_URL,
+	LINKEDIN_ACTIVITY_URL,
+} from '../consts';
+
+const title = 'Writing';
+const description =
+	'Long-form writing on AI security, threat modeling, and the architecture questions tools don’t answer. Featured posts curated; recent posts auto-pulled from raxIT Labs and Substack.';
+
+const [raxitItems, substackItems] = await Promise.all([
+	fetchFeed(RAXIT_FEED_URL, 'raxIT', RAXIT_BLOG_URL),
+	fetchFeed(SUBSTACK_FEED_URL, 'Substack', SUBSTACK_URL),
+]);
+const recent = mergeAndDedupe(raxitItems, substackItems).slice(0, 15);
+
+const MONTHS: Record<string, string> = {
+	Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+	Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12',
+};
+
+function featuredDateIso(date: string | undefined): string | null {
+	if (!date) return null;
+	const m = date.match(/^([A-Za-z]+)\s+(\d{4})$/);
+	if (m && MONTHS[m[1]]) return `${m[2]}-${MONTHS[m[1]]}`;
+	if (/^\d{4}$/.test(date)) return date;
+	return null;
+}
+---
+
+<Page title={title} description={description} current="/writing">
+	<h1 class="page-title">Writing</h1>
+	<p class="page-meta">
+		Long-form analysis on frontier AI security incidents.
+	</p>
+
+	<h2 class="eyebrow"><span class="eyebrow-num">01</span> Featured</h2>
+	<ul class="bare writing">
+		{
+			featuredWriting.map((p) => {
+				const dateIso = featuredDateIso(p.date);
+				return (
+					<li>
+						<a class="bracket-title" href={p.url}>
+							{p.title}
+						</a>
+						<span class="featured-take">{p.take}</span>
+						{p.date && (
+							<span class="writing-date">
+								{dateIso ? <time datetime={dateIso}>{p.date}</time> : p.date}
+							</span>
+						)}
+					</li>
+				);
+			})
+		}
+	</ul>
+
+	<div class="rule" aria-hidden="true"><span>◇</span><span>◇</span><span>◇</span></div>
+
+	<h2 class="eyebrow"><span class="eyebrow-num">02</span> Recent</h2>
+	{
+		recent.length > 0 ? (
+			<ul class="bare writing">
+				{recent.map((p) => (
+					<li>
+						<a class="bracket-title" href={p.url}>
+							{p.title}
+						</a>
+						<span class="writing-date">
+							<time datetime={p.pubDate.toISOString()}>{formatRelativeDate(p.pubDate)}</time>
+						</span>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="meta">
+				Feeds didn't load this build. Latest writing at <a href={RAXIT_BLOG_URL}>raxIT Labs</a> and{' '}
+				<a href={SUBSTACK_URL}>Substack</a>.
+			</p>
+		)
+	}
+
+	<p class="meta">
+		Source feeds: <a href={RAXIT_BLOG_URL}>raxIT Labs</a>, <a href={SUBSTACK_URL}>Substack</a>,
+		and recent activity on <a href={LINKEDIN_ACTIVITY_URL}>LinkedIn</a>.
+	</p>
+</Page>

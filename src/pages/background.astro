@@ -1,0 +1,82 @@
+---
+import Page from '../layouts/Page.astro';
+import { background, credentials, bioIntro } from '../data/background';
+
+const title = 'Background';
+const description = bioIntro;
+
+const MONTHS: Record<string, string> = {
+	Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+	Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12',
+};
+
+type PeriodPart = { text: string; iso: string | null };
+
+function isoFor(part: string): string | null {
+	const trimmed = part.trim();
+	const monthYear = trimmed.match(/^([A-Za-z]+)\s+(\d{4})$/);
+	if (monthYear && MONTHS[monthYear[1]]) {
+		return `${monthYear[2]}-${MONTHS[monthYear[1]]}`;
+	}
+	if (/^\d{4}$/.test(trimmed)) return trimmed;
+	return null;
+}
+
+function parsePeriod(period: string): PeriodPart[] {
+	// Split on en-dash or hyphen surrounded by spaces.
+	const m = period.match(/^(.+?)\s+[–-]\s+(.+)$/);
+	if (!m) {
+		const iso = isoFor(period);
+		return [{ text: period, iso }];
+	}
+	const [, left, right] = m;
+	const leftIso = isoFor(left);
+	const rightTrimmed = right.trim();
+	const rightIso = rightTrimmed.toLowerCase() === 'present' ? null : isoFor(rightTrimmed);
+	return [
+		{ text: left, iso: leftIso },
+		{ text: ' – ', iso: null },
+		{ text: rightTrimmed, iso: rightIso },
+	];
+}
+---
+
+<Page title={title} description={description} current="/background">
+	<h1 class="page-title">Background</h1>
+	<p class="page-meta">{bioIntro}</p>
+
+	<h2 class="eyebrow"><span class="eyebrow-num">01</span> Timeline</h2>
+	<dl class="bg-table">
+		{
+			background.map((b) => {
+				const parts = parsePeriod(b.period);
+				return (
+					<>
+						<dt>
+							{parts.map((part) =>
+								part.iso ? <time datetime={part.iso}>{part.text}</time> : <>{part.text}</>,
+							)}
+						</dt>
+						<dd>
+							<span class="role">{b.role}</span>
+							<span class="org-sep" aria-hidden="true"> · </span>
+							<span class="org">{b.org}</span>
+						</dd>
+					</>
+				);
+			})
+		}
+	</dl>
+
+	<div class="rule" aria-hidden="true"><span>◇</span><span>◇</span><span>◇</span></div>
+
+	<h2 class="eyebrow"><span class="eyebrow-num">02</span> Credentials</h2>
+	<dl class="credentials-list">
+		<dt>Education</dt>
+		<dd>{credentials.education}</dd>
+		<dt>Certifications</dt>
+		<dd>{credentials.certifications.join(' · ')}</dd>
+		<dt>Recognition</dt>
+		<dd>{credentials.recognition.join(' · ')}</dd>
+	</dl>
+</Page>

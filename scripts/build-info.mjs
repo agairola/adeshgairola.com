@@ -11,13 +11,8 @@ const outPath = join(__dirname, '..', 'src', 'build-info.json');
 
 const now = new Date();
 const info = {
-	builtAt: now.toLocaleDateString('en-US', {
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-	}),
 	builtAtISO: now.toISOString(),
 };
 
 writeFileSync(outPath, JSON.stringify(info, null, 2) + '\n');
-console.log(`[build-info] ${info.builtAt}`);
+console.log(`[build-info] ${info.builtAtISO}`);

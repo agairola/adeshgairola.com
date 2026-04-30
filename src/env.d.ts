@@ -1,5 +1,4 @@
 /// <reference types="astro/client" />
 
-declare module '@fontsource-variable/fraunces';
-declare module '@fontsource-variable/inter';
-declare module '@fontsource/jetbrains-mono';
+declare module '@fontsource-variable/geist';
+declare module '@fontsource-variable/geist-mono';

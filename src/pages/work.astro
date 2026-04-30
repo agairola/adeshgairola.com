@@ -1,0 +1,143 @@
+---
+import Page from '../layouts/Page.astro';
+import { selectedWork } from '../data/selected-work';
+
+const title = 'Work';
+const description =
+	'Selected work from Adesh Gairola. AWS ANZ AI Security consulting practice, AWS Threat Composer, AWS Control Tower Proactive Controls, ANZ enterprise GenAI moderation, and open-source projects (model-scanner, GrayZoneBench, mcp-oauth-sample, DirePhish).';
+
+const aws = selectedWork.filter((w) => w.group === 'aws');
+const oss = selectedWork.filter((w) => w.group === 'oss');
+const preAws = selectedWork.filter((w) => w.group === 'pre-aws');
+
+const MONTHS: Record<string, string> = {
+	Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+	Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12',
+	January: '01', February: '02', March: '03', April: '04', June: '06',
+	July: '07', August: '08', September: '09', October: '10', November: '11', December: '12',
+};
+
+function toIso(part: string): string | null {
+	const trimmed = part.trim();
+	// "Apr 2023" or "April 2026"
+	const monthYear = trimmed.match(/^([A-Za-z]+)\s+(\d{4})$/);
+	if (monthYear && MONTHS[monthYear[1]]) {
+		return `${monthYear[2]}-${MONTHS[monthYear[1]]}`;
+	}
+	// "2025"
+	const yearOnly = trimmed.match(/^(\d{4})$/);
+	if (yearOnly) return yearOnly[1];
+	return null;
+}
+
+type DatePart = { text: string; iso: string | null };
+function renderWorkDate(date: string): DatePart[] | null {
+	// "Released 2025" or "Released April 2026"
+	const released = date.match(/^Released\s+(.+)$/);
+	if (released) {
+		const iso = toIso(released[1]);
+		return iso ? [{ text: `Released `, iso: null }, { text: released[1], iso }] : null;
+	}
+	// "Apr 2023 – Dec 2025" / "Jun 2012 – Aug 2017"
+	const range = date.match(/^(.+?)\s+[–-]\s+(.+)$/);
+	if (range) {
+		const a = toIso(range[1]);
+		const b = toIso(range[2]);
+		if (a && b) {
+			return [
+				{ text: range[1], iso: a },
+				{ text: ' – ', iso: null },
+				{ text: range[2], iso: b },
+			];
+		}
+		return null;
+	}
+	const iso = toIso(date);
+	return iso ? [{ text: date, iso }] : null;
+}
+---
+
+<Page title={title} description={description} current="/work">
+	<h1 class="page-title">Work</h1>
+	<p class="page-meta">Things shipped at scale, with the receipts.</p>
+
+	<h2 class="eyebrow"><span class="eyebrow-num">01</span> At AWS</h2>
+	{
+		aws.map((w) => {
+			const parts = w.date ? renderWorkDate(w.date) : null;
+			return (
+				<article class="work-entry">
+					<h3>{w.title}</h3>
+					<p>{w.body}</p>
+					{w.date && (
+						<span class="work-date">
+							{parts
+								? parts.map((part) =>
+										part.iso ? <time datetime={part.iso}>{part.text}</time> : <>{part.text}</>,
+									)
+								: w.date}
+						</span>
+					)}
+				</article>
+			);
+		})
+	}
+
+	<div class="rule" aria-hidden="true"><span>◇</span><span>◇</span><span>◇</span></div>
+
+	<h2 class="eyebrow"><span class="eyebrow-num">02</span> Open source</h2>
+	{
+		oss.map((w) => {
+			const parts = w.date ? renderWorkDate(w.date) : null;
+			return (
+				<article class="work-entry">
+					<h3>{w.title}</h3>
+					<p>{w.body}</p>
+					{w.install && (
+						<pre class="code-block install">
+							<code>{w.install}</code>
+						</pre>
+					)}
+					{w.repo && (
+						<p class="work-repo">
+							<a href={w.repo}>{w.repo.replace('https://', '')}</a>
+						</p>
+					)}
+					{w.date && (
+						<span class="work-date">
+							{parts
+								? parts.map((part) =>
+										part.iso ? <time datetime={part.iso}>{part.text}</time> : <>{part.text}</>,
+									)
+								: w.date}
+						</span>
+					)}
+				</article>
+			);
+		})
+	}
+
+	<div class="rule" aria-hidden="true"><span>◇</span><span>◇</span><span>◇</span></div>
+
+	<h2 class="eyebrow"><span class="eyebrow-num">03</span> Earlier</h2>
+	{
+		preAws.map((w) => {
+			const parts = w.date ? renderWorkDate(w.date) : null;
+			return (
+				<article class="work-entry">
+					<h3>{w.title}</h3>
+					<p>{w.body}</p>
+					{w.date && (
+						<span class="work-date">
+							{parts
+								? parts.map((part) =>
+										part.iso ? <time datetime={part.iso}>{part.text}</time> : <>{part.text}</>,
+									)
+								: w.date}
+						</span>
+					)}
+				</article>
+			);
+		})
+	}
+</Page>
