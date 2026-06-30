@@ -1,0 +1,38 @@
+name: Refresh feeds
+
+# Rebuilds the site on a schedule so newly published blog + Substack posts
+# (which are fetched at build time) appear without a manual deploy. The site
+# stays fully static; this job only POSTs to a Vercel Deploy Hook to trigger
+# a rebuild.
+#
+# One-time setup:
+#   1. Vercel → Project → Settings → Git → Deploy Hooks: create a hook on the
+#      `main` branch, then copy its URL.
+#   2. GitHub → repo Settings → Secrets and variables → Actions → New repository
+#      secret: name it VERCEL_DEPLOY_HOOK_URL with that URL as the value.
+# Push this file to `main` to activate. Test anytime from the Actions tab:
+# Refresh feeds → Run workflow.
+
+on:
+  schedule:
+    # Daily at 18:00 UTC (about 04:00 Sydney AEST, 05:00 AEDT). Adjust to taste:
+    # e.g. '0 6,18 * * *' rebuilds twice a day.
+    - cron: '0 18 * * *'
+  workflow_dispatch: {}
+
+permissions: {}
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK_URL secret is not set. See this file's header for setup."
+            exit 1
+          fi
+          curl -fsS -X POST "$DEPLOY_HOOK_URL" > /dev/null
+          echo "Deploy hook triggered; Vercel will rebuild from the latest feeds."
