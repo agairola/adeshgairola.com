@@ -12,10 +12,10 @@ export type FeaturedPost = {
 
 export const featuredWriting: FeaturedPost[] = [
 	{
-		title: 'TRUST ME BRO is not a security control',
-		take: 'The trust boundary moved inside the model. Three zones, five layers of controls Anthropic ships before your prompt hits the API. You inherit the whole stack.',
-		url: 'https://raxitlabs.com/blogs/claude-47-five-layers-cyber-blocking',
-		date: 'Apr 2026',
+		title: `Agent identity isn't solved`,
+		take: `Every enterprise conversation lands on the same line: agent identity isn't solved. True, but not nothing to hold onto. Four stacked layers: tamper-proof token, proof of which workload is running, a delegation chain that keeps the human as the subject, onboarding to a service it's never met. Climb all four and you've proven who the agent is. Not that what it did was okay.`,
+		url: 'https://raxitlabs.com/blogs/agent-identity-four-layers',
+		date: 'May 2026',
 	},
 	{
 		title: 'DirePhish',
