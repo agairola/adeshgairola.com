@@ -94,9 +94,7 @@ function renderWorkDate(date: string): DatePart[] | null {
 					<h3>{w.title}</h3>
 					<p>{w.body}</p>
 					{w.install && (
-						<pre class="code-block install">
-							<code>{w.install}</code>
-						</pre>
+						<pre class="code-block install"><code>{w.install}</code></pre>
 					)}
 					{w.repo && (
 						<p class="work-repo">
