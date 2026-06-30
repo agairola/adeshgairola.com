@@ -2,6 +2,7 @@
 // from src/assets/profile.png. Run via `pnpm run icons` whenever the source changes.
 
 import sharp from 'sharp';
+import { writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -12,9 +13,25 @@ const PUB = join(ROOT, 'public');
 
 const tasks = [];
 
-// Favicons (modern: PNG-based, no .ico)
-tasks.push(sharp(SRC).resize(16, 16).png().toFile(join(PUB, 'favicon-16.png')));
-tasks.push(sharp(SRC).resize(32, 32).png().toFile(join(PUB, 'favicon-32.png')));
+// Favicon monogram: a cobalt circle + white "AG" that echoes the circular avatar.
+// A photo loses all detail at 16px; a mark stays crisp. Single source of truth for
+// the SVG favicon (vector, scales perfectly) and the PNG fallbacks (older browsers).
+// Cobalt is --accent in light mode (#2b5bc4). White-on-cobalt holds contrast on any
+// browser chrome, so no theme switching needed.
+const ACCENT = '#2b5bc4';
+const monogramSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Adesh Gairola">
+  <circle cx="32" cy="32" r="32" fill="${ACCENT}" />
+  <text x="32" y="43" fill="#ffffff" text-anchor="middle"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="32" font-weight="600" letter-spacing="-1.5">AG</text>
+</svg>
+`;
+
+writeFileSync(join(PUB, 'favicon.svg'), monogramSvg);
+
+const monogramBuf = Buffer.from(monogramSvg);
+tasks.push(sharp(monogramBuf).resize(16, 16).png().toFile(join(PUB, 'favicon-16.png')));
+tasks.push(sharp(monogramBuf).resize(32, 32).png().toFile(join(PUB, 'favicon-32.png')));
 
 // Apple touch icon
 tasks.push(sharp(SRC).resize(180, 180).png().toFile(join(PUB, 'apple-touch-icon.png')));
