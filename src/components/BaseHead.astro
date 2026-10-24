@@ -1,6 +1,5 @@
 ---
-import '@fontsource-variable/geist';
-import '@fontsource-variable/geist-mono';
+import '@fontsource-variable/shantell-sans/full.css';
 import '../styles/global.css';
 import { SEO } from 'astro-seo';
 import buildInfo from '../build-info.json';
@@ -42,7 +41,7 @@ const ldGraph = {
 			name: 'Adesh Gairola',
 			url: Astro.site?.toString(),
 			image: ogImageURL,
-			jobTitle: 'Founder',
+			jobTitle: 'Founder and CEO',
 			email: `mailto:${EMAIL}`,
 			description,
 			worksFor: { '@id': ORG_ID },
@@ -88,7 +87,7 @@ const ldGraph = {
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="light dark" />
+<meta name="color-scheme" content="light" />
 <meta name="format-detection" content="telephone=no" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -96,8 +95,8 @@ const ldGraph = {
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#fcfbf8" />
+<script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
 
 <meta name="generator" content={Astro.generator} />
 

@@ -1,7 +1,7 @@
 export type BackgroundRow = { period: string; role: string; org: string };
 
 export const background: BackgroundRow[] = [
-	{ period: 'Dec 2025 – present', role: 'Founder & CTO', org: 'raxIT Labs' },
+	{ period: 'Dec 2025 – present', role: 'Founder & CEO', org: 'raxIT Labs' },
 	{ period: 'Apr 2023 – Dec 2025', role: 'Senior Security Consultant', org: 'AWS' },
 	{
 		period: 'Sep 2017 – Apr 2023',

@@ -4,15 +4,16 @@
 
 ## Site map
 
-- [Home (/)](https://adeshgairola.com/): identity, tagline, current focus, recent writing
+- [Home (/)](https://adeshgairola.com/): who I am, in three lines, and how to book time
+- [raxIT Labs (/raxit)](https://adeshgairola.com/raxit): what raxIT Labs builds: raxIT AI (security for AI) and raxIT Studio (AI for security)
 - [Work (/work)](https://adeshgairola.com/work): selected work entries with dates and repos
 - [Writing (/writing)](https://adeshgairola.com/writing): featured posts + auto-pulled recent feed from raxIT Labs and Substack
-- [Now (/now)](https://adeshgairola.com/now): current focus, updated monthly. Live Sydney time.
+- [Now (/now)](https://adeshgairola.com/now): current focus, updated monthly
 - [Background (/background)](https://adeshgairola.com/background): career timeline, credentials, recognition
 
 ## What I do
 
-- Founder & CTO, raxIT Labs. Security for AI as the primary work (governance, threat modeling, runtime guardrails for AI products); AI for security as the unusual sideline (using AI to automate threat modeling, detection, and compliance work). Independent labs releasing open-source security tooling alongside the platform.
+- Founder & CEO, raxIT Labs. Security for AI as the primary work (governance, threat modeling, runtime guardrails for AI products); AI for security as the unusual sideline (using AI to automate threat modeling, detection, and compliance work). Independent labs releasing open-source security tooling alongside the platform.
 - Founder & organiser, AI Security Circle Sydney (monthly, practitioners-only): https://www.meetup.com/ai-security-circle/
 - Speaker, AI Engineer Melbourne 2026. Talk: "Kill the God Agent" (autonomous-agent threat modeling), June 3–4
 - OWASP LLM Top 10 contributor
@@ -49,7 +50,7 @@ Curated highlights pointing to canonical sources. Three things worth your time r
 
 ## Background
 
-- Dec 2025 – present: Founder & CTO, raxIT Labs
+- Dec 2025 – present: Founder & CEO, raxIT Labs
 - Apr 2023 – Dec 2025: Senior Security Consultant, AWS
 - Sep 2017 – Apr 2023: Security Consultant / Cloud Architect / Cloud Security Engineer, AWS
 - Jun 2012 – Aug 2017: SME / Security Customer Support Engineer, Cisco
