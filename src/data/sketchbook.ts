@@ -97,14 +97,15 @@ export const sections: Section[] = [
 	{
 		id: 'side',
 		path: '/side',
-		label: 'side',
+		label: 'cocoon',
 		title: 'Side projects',
 		description:
-			'Adesh Gairola learns by building things outside security. Right now that is myCocoon, a private AI pregnancy companion for iPhone.',
+			'Adesh Gairola learns by building things outside security. Right now that is myCocoon, a private AI pregnancy companion for iPhone with a core user base.',
 		drawing: 'phone',
 		lines: [
 			"on the side, i learn by building things that aren't security.",
 			"right now that's myCocoon, a private ai pregnancy companion for iPhone.",
+			'it has a core user base.',
 		],
 	},
 	{
