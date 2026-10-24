@@ -103,8 +103,8 @@ export const raxitMore = [
 export type WorkItem = { text: string; year: string };
 
 export const workMore: WorkItem[] = [
-	{ text: 'built the anz ai security consulting practice at aws, from zero', year: '2023' },
 	{ text: 'co-wrote the reference threat model for ai and agentic apps, now in aws threat composer', year: '2024' },
+	{ text: 'built the anz ai security consulting practice at aws, from zero', year: '2023' },
 	{ text: 'led the rollout of proactive controls in aws control tower', year: '2023' },
 	{ text: 'content moderation that cleared the first bank genai platforms', year: '2023' },
 	{ text: "led cisco's apac vpn security team", year: '2012' },
