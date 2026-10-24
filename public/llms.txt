@@ -6,6 +6,7 @@
 
 - [Home (/)](https://adeshgairola.com/): who I am, in three lines, and how to book time
 - [raxIT Labs (/raxit)](https://adeshgairola.com/raxit): what raxIT Labs builds: raxIT AI (security for AI) and raxIT Studio (AI for security)
+- [Labs (/labs)](https://adeshgairola.com/labs): open research from raxIT Labs: decision models as guardrails, AI security threat intelligence, NLA Audit, DirePhish, GrayZoneBench
 - [Work (/work)](https://adeshgairola.com/work): selected work entries with dates and repos
 - [Writing (/writing)](https://adeshgairola.com/writing): featured posts + auto-pulled recent feed from raxIT Labs and Substack
 - [Now (/now)](https://adeshgairola.com/now): current focus, updated monthly
@@ -14,7 +15,6 @@
 ## What I do
 
 - Founder & CEO, raxIT Labs. Security for AI as the primary work (governance, threat modeling, runtime guardrails for AI products); AI for security as the unusual sideline (using AI to automate threat modeling, detection, and compliance work). Independent labs releasing open-source security tooling alongside the platform.
-- Founder & organiser, AI Security Circle Sydney (monthly, practitioners-only): https://www.meetup.com/ai-security-circle/
 - Speaker, AI Engineer Melbourne 2026. Talk: "Kill the God Agent" (autonomous-agent threat modeling), June 3–4
 - OWASP LLM Top 10 contributor
 

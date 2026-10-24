@@ -2,9 +2,9 @@
 // the bottom 30% of the screen, and a "more" panel with the detail.
 // Lowercase on purpose (the sketchbook voice). Brand names keep their casing.
 
-export type SectionId = 'hello' | 'raxit' | 'work' | 'writing' | 'now' | 'about';
+export type SectionId = 'hello' | 'raxit' | 'labs' | 'work' | 'writing' | 'now' | 'about';
 
-export type Drawing = 'desk' | 'hex' | 'layers' | 'book' | 'clock' | 'ribbon';
+export type Drawing = 'desk' | 'hex' | 'flask' | 'layers' | 'book' | 'clock' | 'ribbon';
 
 export type Section = {
 	id: SectionId;
@@ -47,12 +47,25 @@ export const sections: Section[] = [
 		],
 	},
 	{
+		id: 'labs',
+		path: '/labs',
+		label: 'labs',
+		title: 'Labs',
+		description:
+			'Open research from raxIT Labs: a decision-model guardrail benchmark, AI security threat intelligence, NLA Audit, DirePhish and GrayZoneBench.',
+		drawing: 'flask',
+		lines: [
+			'we do our research in the open.',
+			'benchmarks, attack simulations and the threat intel our products run on.',
+		],
+	},
+	{
 		id: 'work',
 		path: '/work',
 		label: 'work',
 		title: 'Work',
 		description:
-			'Eight years at AWS, the last two building its ANZ AI security practice. Before that, Cisco and HCLTech. Open-source tools from raxIT Labs.',
+			'Eight years at AWS, the last two building its ANZ AI security practice. Before that, Cisco and HCLTech.',
 		drawing: 'layers',
 		lines: [
 			'eight years at aws. the last two building its anz ai security practice.',
@@ -79,7 +92,6 @@ export const sections: Section[] = [
 		lines: [
 			'building raxIT AI and raxIT Studio.',
 			'testing decision models against bedrock guardrails.',
-			'running ai security circle in sydney, once a month.',
 		],
 	},
 	{
@@ -111,12 +123,47 @@ export const workMore: WorkItem[] = [
 	{ text: 'network security at hcltech and infosys', year: '2009' },
 ];
 
+/** Projects from https://raxitlabs.com/labs, newest first. */
+export type LabProject = { title: string; when: string; note: string; url: string };
+
+export const labs: LabProject[] = [
+	{
+		title: 'can a decision model be your guardrail?',
+		when: 'oct 2026',
+		note: '97 real prompt-injection emails through 18 decision models and bedrock. 19 systems, 9,975 checks.',
+		url: 'https://raxitlabs.com/labs/decision-models-as-guardrails',
+	},
+	{
+		title: 'ai security threat intelligence',
+		when: 'sep 2026',
+		note: 'eight public feeds, hundreds of evidence-backed threat patterns and a 58-rule open-source scanner.',
+		url: 'https://raxitlabs.com/labs/threat-intel-pipeline',
+	},
+	{
+		title: 'nla audit',
+		when: 'may 2026',
+		note: 'reads what an open-weight model is computing at each token, so you can stop when output and thought disagree.',
+		url: 'https://raxitlabs.com/labs/nla-audit',
+	},
+	{
+		title: 'direphish',
+		when: 'apr 2026',
+		note: 'clones your organisation as agents, drops in a threat actor and runs the attack dozens of times.',
+		url: 'https://raxitlabs.com/labs/direphish',
+	},
+	{
+		title: 'grayzonebench',
+		when: 'aug 2025',
+		note: 'a safety benchmark for prompts where the right answer is neither refuse nor comply.',
+		url: 'https://raxitlabs.com/labs/grayzonebench',
+	},
+];
+
 export type Repo = { name: string; url: string };
 
+/** Smaller open-source tools that are not on the labs page. */
 export const openSource: Repo[] = [
-	{ name: 'direphish', url: 'https://github.com/raxITlabs/DirePhish' },
 	{ name: 'model-scanner', url: 'https://github.com/raxITlabs/skills' },
-	{ name: 'grayzonebench', url: 'https://github.com/raxITlabs/GrayZoneBench' },
 	{ name: 'mcp-oauth-sample', url: 'https://github.com/raxITlabs/mcp-oauth-sample' },
 	{ name: 'securing-ralph-loop', url: 'https://github.com/agairola/securing-ralph-loop' },
 ];

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Personal site for Adesh Gairola, founder of raxIT Labs, ex-AWS Security, Sydney. A one-screen "sketchbook" after the grug and Arin apps: six sections (`/`, `/raxit`, `/work`, `/writing`, `/now`, `/background`), each a line drawing with a few words in the bottom 30% and a "… more" panel. Built on Astro 6 with the Vercel adapter, package-managed with **pnpm**. Node `>=22.12.0` required. Live at `https://adeshgairola.com`. Repo at `github.com/agairola/adeshgairola.com`.
+Personal site for Adesh Gairola, founder of raxIT Labs, ex-AWS Security, Sydney. A one-screen "sketchbook" after the grug and Arin apps: seven sections (`/`, `/raxit`, `/labs`, `/work`, `/writing`, `/now`, `/background`), each a line drawing with a few words in the bottom 30% and a "… more" panel. Built on Astro 6 with the Vercel adapter, package-managed with **pnpm**. Node `>=22.12.0` required. Live at `https://adeshgairola.com`. Repo at `github.com/agairola/adeshgairola.com`.
 
 ## Commands
 
@@ -74,11 +74,11 @@ Do NOT block AI crawlers (`GPTBot`, `ClaudeBot`, `PerplexityBot`, `OAI-SearchBot
 
 ## Architecture
 
-### Six routes, one component
+### Seven routes, one component
 
-Every page in `src/pages/` is a one-liner: `<Page section="..." />`. `src/layouts/Page.astro` renders `BaseHead` and `src/components/Sketchbook.astro`, which outputs all six sections with only the active one visible.
+Every page in `src/pages/` is a one-liner: `<Page section="..." />`. `src/layouts/Page.astro` renders `BaseHead` and `src/components/Sketchbook.astro`, which outputs all seven sections with only the active one visible.
 
-- `/` hello (desk drawing), `/raxit` raxIT Labs (hexagon with keyhole), `/work` (stack of layers), `/writing` (open book), `/now` (clock), `/background` labelled "about" (career line).
+- `/` hello (desk drawing), `/raxit` raxIT Labs (hexagon with keyhole), `/labs` (flask; projects from raxitlabs.com/labs plus smaller open-source tools), `/work` (stack of layers), `/writing` (open book), `/now` (clock), `/background` labelled "about" (career line).
 - Layout: header (wordmark, shuffle dot), a drawing in the middle, words in the bottom 30% with the section bar at the very bottom. "… more" grows the bottom panel to 64% and shows the detail.
 - `src/scripts/sketchbook.ts` intercepts section links, swaps sections in place, `pushState`s the real URL and handles back/forward. It also runs:
   - the WebGL paper (grain that boils on three frames every 140 ms),
@@ -94,7 +94,7 @@ All structured content lives in `src/data/*.ts`:
 - `featured-writing.ts`: curated LinkedIn permalinks with take lines
 - `principles.ts`: How I Think principles (currently unused on any page; available)
 - `background.ts`: timeline rows, education, certifications, recognition, bioIntro
-- `sketchbook.ts`: the six sections (path, title, description, drawing, glance lines) plus the short "more" copy for raxIT and work, the open-source list and the career line
+- `sketchbook.ts`: the seven sections (path, title, description, drawing, glance lines) plus the short "more" copy for raxIT and work, the labs projects, the open-source list and the career line
 - `now.ts`: `updated` date and the "more" lines for the now section
 - `testimonials.ts`: full testimonials with names + a role-only `homeTestimonial` for the home pull-quote
 
@@ -106,7 +106,7 @@ There are no `src/content/` collections. To update content: edit the relevant `.
 
 ### Site metadata in `src/consts.ts`
 
-`SITE_TITLE`, `SITE_DESCRIPTION`, plus all URL constants (Substack, raxIT, LinkedIn, GitHub, YouTube, calendar, email, AI Security Circle Meetup, AI Engineer Melbourne). Change once, propagates everywhere.
+`SITE_TITLE`, `SITE_DESCRIPTION`, plus all URL constants (Substack, raxIT, LinkedIn, GitHub, YouTube, calendar, email, AI Engineer Melbourne). Change once, propagates everywhere.
 
 ### Site URL is locked
 

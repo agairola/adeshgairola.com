@@ -380,6 +380,25 @@ main:focus-visible {
 	background: repeating-linear-gradient(90deg, var(--hair) 0 3px, transparent 3px 7px);
 }
 
+.projects li {
+	flex-wrap: wrap;
+	row-gap: 2px;
+	padding: 10px 0;
+}
+
+.projects a {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.projects .note {
+	flex-basis: 100%;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--soft);
+	text-wrap: pretty;
+}
+
 .list .y {
 	flex: none;
 	font-size: 15px;
@@ -488,10 +507,6 @@ main:focus-visible {
 @media (max-width: 520px) {
 	.bar {
 		font-size: 16px;
-	}
-
-	.line {
-		margin-bottom: 2px;
 	}
 }
 
