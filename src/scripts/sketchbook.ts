@@ -77,7 +77,7 @@ const ease = (t: number) => 1 - (1 - t) * (1 - t);
 function randomPale(): [string, string] {
 	for (let t = 0; t < 40; t++) {
 		const hh = Math.random();
-		const bg = hsv(hh, 0.06 + Math.random() * 0.16, 0.9 + Math.random() * 0.07);
+		const bg = hsv(hh, 0.04 + Math.random() * 0.08, 0.93 + Math.random() * 0.04);
 		const ink = hsv((hh + 0.03) % 1, 0.35 + Math.random() * 0.3, 0.15 + Math.random() * 0.12);
 		if (contrast(bg, ink) >= 7) return [hexOf(bg), hexOf(ink)];
 	}
@@ -337,14 +337,14 @@ class Sketchbook {
 			p.out.textContent = p.text.slice(0, ci);
 			p.out.appendChild(caret);
 			const ch = p.text[ci - 1];
-			let delay = 22 + Math.random() * 20;
-			if (ch === ',' || ch === ':') delay += 160;
-			if (ch === '.' || ch === '?' || ch === '!') delay += 260;
+			let delay = 14 + Math.random() * 14;
+			if (ch === ',' || ch === ':') delay += 90;
+			if (ch === '.' || ch === '?' || ch === '!') delay += 160;
 			if (ch === ' ') delay += 8;
 			if (ci >= p.text.length) {
 				li++;
 				ci = 0;
-				delay += 200;
+				delay += 140;
 				if (li >= parts.length) {
 					this.typeT = window.setTimeout(() => caret.classList.add('gone'), 1400);
 					return;
@@ -391,7 +391,7 @@ class Sketchbook {
 		if (!D || !P) return;
 		const s = Math.min((W * 0.8) / D.w, (H * 0.86) / D.h, 2.3);
 		const ox = (W - D.w * s) / 2;
-		const oy = (H - D.h * s) / 2;
+		const oy = (H - D.h * s) * 0.6;
 		const amp = 0.7;
 		const fillA = Math.max(0, Math.min(1, (rv - 0.8) / 0.2));
 		if (fillA) {
@@ -455,7 +455,7 @@ class Sketchbook {
 		const ry = H / 2 - 3;
 		const pts: Pt[] = [];
 		for (let i = 0; i <= 120; i++) {
-			const a = -1.9 + (i / 120) * (Math.PI * 2 + 0.38);
+			const a = -1.9 + (i / 120) * (Math.PI * 2 + 0.18);
 			const w = (1 + 0.02 * Math.sin(3 * a + seed)) * (0.95 + (i / 120) * 0.09);
 			pts.push([cx + Math.cos(a) * rx * w, cy + Math.sin(a) * ry * w]);
 		}
@@ -467,7 +467,7 @@ class Sketchbook {
 	private drawRibbon(ctx: CanvasRenderingContext2D, W: number, H: number, seed: number, rv: number) {
 		const span = Math.min(W * 0.86, 620);
 		const x0 = (W - span) / 2;
-		const base = H * 0.52;
+		const base = H * 0.58;
 		const at = (x: number) => base + Math.sin(x * 0.02) * 2.5;
 		const main: Pt[] = [];
 		const n = Math.floor(span / 3);
@@ -517,6 +517,7 @@ class Sketchbook {
 		st.setProperty('--ink', hexOf(this.cur.ink));
 		st.setProperty('--acc', hexOf(this.cur.acc));
 		document.body.style.background = hexOf(this.cur.bg);
+		document.querySelector('meta[name="theme-color"]')?.setAttribute('content', hexOf(this.cur.bg));
 	}
 
 	/** Half the time the next named pair, otherwise a fresh pale pair. */
