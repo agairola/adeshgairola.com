@@ -1,11 +1,12 @@
 ---
 // Every route renders the whole sketchbook with one section open. Client-side,
 // src/scripts/sketchbook.ts swaps sections in place and keeps the URL in sync.
-import { sections, raxitMore, workMore, labs, openSource, careerLine, type SectionId } from '../data/sketchbook';
+import { sections, raxitMore, workMore, openSource, careerLine, type SectionId } from '../data/sketchbook';
 import { now } from '../data/now';
 import { credentials } from '../data/background';
 import { featuredWriting } from '../data/featured-writing';
 import { recentWriting } from '../lib/recent';
+import { labProjects } from '../lib/labs';
 import { formatRelativeDate } from '../lib/feeds';
 import {
 	SITE_TITLE,
@@ -27,7 +28,7 @@ const { active } = Astro.props;
 const current = sections.find((s) => s.id === active) ?? sections[0];
 const fullTitle = (title: string) => (title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`);
 
-const recent = await recentWriting(5);
+const [recent, labs] = await Promise.all([recentWriting(5), labProjects()]);
 const posts =
 	recent.length > 0
 		? recent.map((p) => ({ title: p.title, url: p.url, when: formatRelativeDate(p.pubDate) }))
