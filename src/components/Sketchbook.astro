@@ -5,6 +5,8 @@ import { sections, raxitMore, workMore, sideMore, openSource, careerLine, type S
 import { now } from '../data/now';
 import { credentials } from '../data/background';
 import { featuredWriting } from '../data/featured-writing';
+import { Image } from 'astro:assets';
+import profile from '../assets/profile.png';
 import { recentWriting } from '../lib/recent';
 import { labProjects } from '../lib/labs';
 import { formatRelativeDate } from '../lib/feeds';
@@ -33,7 +35,9 @@ const [recent, labs] = await Promise.all([recentWriting(5), labProjects()]);
 const posts =
 	recent.length > 0
 		? recent.map((p) => ({ title: p.title, url: p.url, when: formatRelativeDate(p.pubDate) }))
-		: featuredWriting.map((p) => ({ title: p.title, url: p.url, when: p.date ?? '' }));
+		: featuredWriting.map((p) => ({ title: p.title, url: p.url, when: p.date?.toLowerCase() ?? '' }));
+// Titles pulled from feeds and raxitlabs.com follow the site's lowercase voice.
+const lower = (s: string) => s.toLowerCase();
 
 const bar = sections.filter((s) => s.label);
 ---
@@ -118,7 +122,7 @@ const bar = sections.filter((s) => s.label);
 										<ul class="list projects">
 											{labs.map((l) => (
 												<li>
-													<a href={l.url}>{l.title}</a>
+													<a href={l.url}>{lower(l.title)}</a>
 													<span class="y">{l.when}</span>
 													<span class="note">{l.note}</span>
 												</li>
@@ -139,7 +143,7 @@ const bar = sections.filter((s) => s.label);
 										<ul class="list">
 											{posts.map((p) => (
 												<li>
-													<a href={p.url}>{p.title}</a>
+													<a href={p.url}>{lower(p.title)}</a>
 													<span class="y">{p.when}</span>
 												</li>
 											))}
@@ -169,8 +173,15 @@ const bar = sections.filter((s) => s.label);
 
 								{s.id === 'about' && (
 									<>
-										<p>{credentials.certifications.join(', ')}.</p>
-										<p class="soft">{credentials.recognition.join(', ')}. {credentials.education}.</p>
+										<div class="portrait">
+											<span class="photo">
+												<Image src={profile} width={176} height={176} alt="Adesh Gairola" loading="lazy" />
+												<canvas data-doodle="oval" aria-hidden="true" />
+											</span>
+											<p>adesh gairola. founder and ceo of raxIT Labs, sydney.</p>
+										</div>
+										<p>{lower(credentials.certifications.join(', '))}.</p>
+										<p class="soft">{lower(`${credentials.recognition.join(', ')}. ${credentials.education}`)}.</p>
 										<div class="contact">
 											<a class="oval" href={CALENDAR_URL}>
 												<canvas data-doodle="oval" aria-hidden="true" />
