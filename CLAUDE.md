@@ -78,7 +78,7 @@ Do NOT block AI crawlers (`GPTBot`, `ClaudeBot`, `PerplexityBot`, `OAI-SearchBot
 
 Every page in `src/pages/` is a one-liner: `<Page section="..." />`. `src/layouts/Page.astro` renders `BaseHead` and `src/components/Sketchbook.astro`, which outputs all eight sections with only the active one visible.
 
-- `/` hello (desk drawing), `/raxit` raxIT Labs (hexagon with keyhole), `/labs` (flask; projects from raxitlabs.com/labs plus smaller open-source tools), `/work` (stack of layers), `/writing` (open book), `/now` (clock), `/side` (phone with a sprout; side projects as learning, currently myCocoon), `/background` labelled "about" (career line).
+- `/` hello (desk drawing), `/raxit` raxIT Labs (hexagon with keyhole), `/labs` (flask; projects from raxitlabs.com/labs plus smaller open-source tools), `/work` (stack of layers), `/writing` (open book), `/now` (clock), `/side` labelled "cocoon" (phone with a sprout; side projects as learning, currently myCocoon, which has a core user base), `/background` labelled "about" (career line).
 - Layout: header (wordmark, shuffle dot), a drawing in the middle, words in the bottom 30% with the section bar at the very bottom. "… more" grows the bottom panel to 64% and shows the detail.
 - `src/scripts/sketchbook.ts` intercepts section links, swaps sections in place, `pushState`s the real URL and handles back/forward. It also runs:
   - the WebGL paper (grain that boils on three frames every 140 ms),
