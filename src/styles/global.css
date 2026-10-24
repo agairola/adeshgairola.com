@@ -510,6 +510,13 @@ main:focus-visible {
 	}
 }
 
+/* Seven bar items on the narrowest phones. */
+@media (max-width: 400px) {
+	.bar {
+		font-size: 15px;
+	}
+}
+
 /* Short screens (landscape phones): give the words more room. */
 @media (max-height: 560px) {
 	.card {

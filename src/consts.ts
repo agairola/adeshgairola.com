@@ -20,5 +20,7 @@ export const YOUTUBE_URL = 'https://www.youtube.com/@raxITLabs';
 
 export const AI_ENGINEER_MELBOURNE_URL = 'https://aiengineer.com.au';
 
+export const COCOON_URL = 'https://trymycocoon.com/';
+
 export const EMAIL = 'hi@adeshgairola.com';
 export const CALENDAR_URL = 'https://calendar.app.google/yooCo2rv9rHLQUG58';

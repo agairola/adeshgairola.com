@@ -10,6 +10,7 @@
 - [Work (/work)](https://adeshgairola.com/work): selected work entries with dates and repos
 - [Writing (/writing)](https://adeshgairola.com/writing): featured posts + auto-pulled recent feed from raxIT Labs and Substack
 - [Now (/now)](https://adeshgairola.com/now): current focus, updated monthly
+- [Side projects (/side)](https://adeshgairola.com/side): learning by building outside security; currently myCocoon (https://trymycocoon.com), a private AI pregnancy companion for iPhone
 - [Background (/background)](https://adeshgairola.com/background): career timeline, credentials, recognition
 
 ## What I do

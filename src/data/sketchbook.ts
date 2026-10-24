@@ -2,9 +2,9 @@
 // the bottom 30% of the screen, and a "more" panel with the detail.
 // Lowercase on purpose (the sketchbook voice). Brand names keep their casing.
 
-export type SectionId = 'hello' | 'raxit' | 'labs' | 'work' | 'writing' | 'now' | 'about';
+export type SectionId = 'hello' | 'raxit' | 'labs' | 'work' | 'writing' | 'now' | 'side' | 'about';
 
-export type Drawing = 'desk' | 'hex' | 'flask' | 'layers' | 'book' | 'clock' | 'ribbon';
+export type Drawing = 'desk' | 'hex' | 'flask' | 'layers' | 'book' | 'clock' | 'phone' | 'ribbon';
 
 export type Section = {
 	id: SectionId;
@@ -95,6 +95,19 @@ export const sections: Section[] = [
 		],
 	},
 	{
+		id: 'side',
+		path: '/side',
+		label: 'side',
+		title: 'Side projects',
+		description:
+			'Adesh Gairola learns by building things outside security. Right now that is myCocoon, a private AI pregnancy companion for iPhone.',
+		drawing: 'phone',
+		lines: [
+			"on the side, i learn by building things that aren't security.",
+			"right now that's myCocoon, a private ai pregnancy companion for iPhone.",
+		],
+	},
+	{
 		id: 'about',
 		path: '/background',
 		label: 'about',
@@ -110,6 +123,13 @@ export const raxitMore = [
 	'raxIT AI checks agents before they ship and watches them after.',
 	'raxIT Studio runs agents that do the security work nobody has headcount for.',
 	'the labs release open-source tools as we go.',
+];
+
+/** myCocoon detail, from https://trymycocoon.com. Keep to what the site says. */
+export const sideMore = [
+	'it reads what your iPhone already records, like sleep, resting heart rate, kicks and mood, and works it out on the phone itself.',
+	'cloud ai is off by default. journal text and photos stay on the phone or in your own iCloud.',
+	'live on the app store, built for ios 26.',
 ];
 
 export type WorkItem = { text: string; year: string };

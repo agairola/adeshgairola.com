@@ -1,7 +1,7 @@
 ---
 // Every route renders the whole sketchbook with one section open. Client-side,
 // src/scripts/sketchbook.ts swaps sections in place and keeps the URL in sync.
-import { sections, raxitMore, workMore, openSource, careerLine, type SectionId } from '../data/sketchbook';
+import { sections, raxitMore, workMore, sideMore, openSource, careerLine, type SectionId } from '../data/sketchbook';
 import { now } from '../data/now';
 import { credentials } from '../data/background';
 import { featuredWriting } from '../data/featured-writing';
@@ -18,6 +18,7 @@ import {
 	GITHUB_URL,
 	EMAIL,
 	CALENDAR_URL,
+	COCOON_URL,
 } from '../consts';
 
 interface Props {
@@ -154,6 +155,15 @@ const bar = sections.filter((s) => s.label);
 									<>
 										{now.more.map((p) => <p>{p}</p>)}
 										<p class="soft">updated {now.updated.toLowerCase()}.</p>
+									</>
+								)}
+
+								{s.id === 'side' && (
+									<>
+										{sideMore.map((p) => <p>{p}</p>)}
+										<p class="links">
+											<a class="u" href={COCOON_URL}>trymycocoon.com ↗</a>
+										</p>
 									</>
 								)}
 
