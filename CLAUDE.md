@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Personal site for Adesh Gairola, founder of raxIT Labs, ex-AWS Security, Sydney. Five-page progressive-disclosure architecture (`/`, `/work`, `/writing`, `/now`, `/background`). Built on Astro 6 with the Vercel adapter, package-managed with **pnpm**. Node `>=22.12.0` required. Live at `https://adeshgairola.com`. Repo at `github.com/agairola/adeshgairola.com`.
+Personal site for Adesh Gairola, founder of raxIT Labs, ex-AWS Security, Sydney. A one-screen "sketchbook" after the grug and Arin apps: six sections (`/`, `/raxit`, `/work`, `/writing`, `/now`, `/background`), each a line drawing with a few words in the bottom 30% and a "… more" panel. Built on Astro 6 with the Vercel adapter, package-managed with **pnpm**. Node `>=22.12.0` required. Live at `https://adeshgairola.com`. Repo at `github.com/agairola/adeshgairola.com`.
 
 ## Commands
 
@@ -57,7 +57,8 @@ Do NOT surface:
 
 - Always **raxIT Labs** (with space, capital L). Never bare "raxIT" except as a UI feed-source label tag where space is constrained.
 - Two-direction positioning: **"Security for AI" is the primary work; "AI for security" is the weird-mix sideline.** Don't re-frame as 50/50 or as "runtime security on Anthropic Claude" (that makes raxIT Labs sound like a plugin).
-- Founder & CTO at raxIT Labs. Founder of raxIT Labs is also fine. Avoid "founder | CTO" pipe form on the site.
+- Founder and CEO at raxIT Labs (confirmed Oct 2026). Founder of raxIT Labs is also fine. Avoid the "founder | CEO" pipe form on the site.
+- Product names keep their casing inside the lowercase voice: raxIT AI (security for AI), raxIT Studio (AI for security).
 
 ### LinkedIn featured posts
 
@@ -65,7 +66,7 @@ Hand-curated. There is no API or RSS for personal LinkedIn posts (verified 2026;
 
 ### No client-side framework hydration
 
-No React, Vue, Svelte. The site is intentionally static. The only client-side JS is the inline visibility-paused `setInterval` for the Sydney clock on `/` and `/now`.
+No React, Vue, Svelte. Pages are static HTML. Client-side JS is one bundled module, `src/scripts/sketchbook.ts`, plus a one-line inline script in `BaseHead` that swaps `no-js` for `js` on `<html>` before paint. Without JS every route still renders its section with the detail open.
 
 ### `robots.txt` allows everything
 
@@ -73,33 +74,35 @@ Do NOT block AI crawlers (`GPTBot`, `ClaudeBot`, `PerplexityBot`, `OAI-SearchBot
 
 ## Architecture
 
-### Five routes, all in `src/pages/`
+### Six routes, one component
 
-- `/` → identity hub. Avatar + tagline + identity sentence + Sydney/live-time + hub nav + NOW snapshot + role-only testimonial pull-quote + 3 dynamic recent-writing items + Talk CTA + connect inline.
-- `/work` → 3 grouped sections (At AWS, Open source, Earlier). Entries from `src/data/selected-work.ts`.
-- `/writing` → curated Featured (LinkedIn permalinks from `src/data/featured-writing.ts`) + auto-pulled Recent (RSS via `src/lib/feeds.ts`).
-- `/now` → Sivers-style current-focus page. Sections from `src/data/now.ts`. Has live Sydney clock (inline JS, visibility-paused setInterval).
-- `/background` → bio + timeline `<dl>` + credentials. Data from `src/data/background.ts`.
+Every page in `src/pages/` is a one-liner: `<Page section="..." />`. `src/layouts/Page.astro` renders `BaseHead` and `src/components/Sketchbook.astro`, which outputs all six sections with only the active one visible.
 
-### Shared layout
-
-`src/layouts/Page.astro` wraps every page with `BaseHead` + `Nav` + `<main id="main">` + `SiteFooter`. Home uses the `hideHeader` prop because the avatar lives in the hero, not in the top nav.
+- `/` hello (desk drawing), `/raxit` raxIT Labs (hexagon with keyhole), `/work` (stack of layers), `/writing` (open book), `/now` (clock), `/background` labelled "about" (career line).
+- Layout: header (wordmark, shuffle dot), a drawing in the middle, words in the bottom 30% with the section bar at the very bottom. "… more" grows the bottom panel to 64% and shows the detail.
+- `src/scripts/sketchbook.ts` intercepts section links, swaps sections in place, `pushState`s the real URL and handles back/forward. It also runs:
+  - the WebGL paper (grain that boils on three frames every 140 ms),
+  - the drawings (`src/scripts/doodles.ts`, SVG path strings sampled to points and drawn on a 2D canvas with a slight pen wobble; they draw themselves on when a section opens),
+  - the typed-on glance lines (a transparent copy holds the space so nothing shifts),
+  - the shuffle dot (swaps paper and ink for another light pair at 7:1 contrast or better; there is no dark mode).
+- Reduced motion: no boil, no draw-on, no typing.
 
 ### Data, not content collections
 
 All structured content lives in `src/data/*.ts`:
-- `selected-work.ts` — Selected Work entries (typed `WorkEntry[]`, with `group: 'aws' | 'oss' | 'pre-aws'`)
-- `featured-writing.ts` — curated LinkedIn permalinks with take lines
-- `principles.ts` — How I Think principles (currently unused on any page; available)
-- `background.ts` — timeline rows, education, certifications, recognition, bioIntro
-- `now.ts` — `snapshot` (used on `/` and `/now`) + `sections[]` (only `/now`) + `updated` date
-- `testimonials.ts` — full testimonials with names + a role-only `homeTestimonial` for the home pull-quote
+- `selected-work.ts`: long-form Selected Work entries (currently unused by the sketchbook; source for `llms.txt`)
+- `featured-writing.ts`: curated LinkedIn permalinks with take lines
+- `principles.ts`: How I Think principles (currently unused on any page; available)
+- `background.ts`: timeline rows, education, certifications, recognition, bioIntro
+- `sketchbook.ts`: the six sections (path, title, description, drawing, glance lines) plus the short "more" copy for raxIT and work, the open-source list and the career line
+- `now.ts`: `updated` date and the "more" lines for the now section
+- `testimonials.ts`: full testimonials with names + a role-only `homeTestimonial` for the home pull-quote
 
 There are no `src/content/` collections. To update content: edit the relevant `.ts` file, commit. The dev server hot-reloads automatically.
 
 ### Dynamic content
 
-`src/lib/feeds.ts` exports `fetchFeed`, `mergeAndDedupe`, `formatRelativeDate`. RSS is fetched at build time from raxIT Labs (`https://raxitlabs.com/feed.xml`) and Substack (`https://agairola.substack.com/feed`). raxIT first so canonical URLs win on cross-posts. Used by `/` (3 items) and `/writing` (15 items, deduped).
+`src/lib/feeds.ts` exports `fetchFeed`, `mergeAndDedupe`, `formatRelativeDate`. RSS is fetched at build time from raxIT Labs (`https://raxitlabs.com/feed.xml`) and Substack (`https://agairola.substack.com/feed`). raxIT first so canonical URLs win on cross-posts. `src/lib/recent.ts` fetches both once per build and shares the result; the writing section shows the 5 newest, falling back to `featured-writing.ts` if the feeds are down.
 
 ### Site metadata in `src/consts.ts`
 
@@ -111,19 +114,13 @@ There are no `src/content/` collections. To update content: edit the relevant `.
 
 ### Design tokens
 
-In `src/styles/global.css` as CSS custom properties:
-- Achromatic scale: `--bg`, `--bg-subtle`, `--fg`, `--fg-muted`, `--fg-subtle`, `--fg-faint`, `--rule`, `--rule-strong`
-- Single semantic accent: `--accent` (cobalt `#2b5bc4` light, `#6a92e8` dark). Does ALL semantic work (links, brackets, code-block rules, focus rings, dropcap, eyebrow numbers, divider diamonds, footer stamp). Never decorative.
-- Shadow-as-border (Vercel signature, replaces traditional CSS `border`): `--shadow-border`, `--shadow-card`, `--shadow-elevated`
-- Layout: `--max-w: 680px`
-- Typography: `--font-sans` (Geist Variable) + `--font-mono` (Geist Mono Variable) via `@fontsource-variable/geist`
+In `src/styles/global.css`. Two colours only: `--bg` (paper, `#fcfbf8`) and `--ink` (`#26231f`); `--soft` and `--hair` are mixes of ink. `--acc` is the day's accent and fills one small part of a drawing, nothing else. The shuffle dot rewrites these at runtime.
 
-### Vercel-aligned typography (do not drift)
+### Typography (do not drift)
 
-- Three weights only: 400 (body), 500 (UI), 600 (headings). NO 700 bold.
-- Aggressive negative letter-spacing at display sizes: `-0.06em` at 48px scaling to `0` at 14px.
-- OpenType `liga`, `calt`, `kern` enabled globally; `tnum` on date columns.
-- `text-wrap: balance` on headings, `text-wrap: pretty` on body paragraphs.
+- Shantell Sans Variable (`@fontsource-variable/shantell-sans/full.css`), the face Arin uses, with `INFM` and `BNCE` at 0 so it reads calm, not cartoony.
+- Lowercase voice everywhere except brand and product names.
+- Glance lines 21 to 28px; detail 17 to 18px; no boxes or shadows, dashed rules (3 on, 4 off) between list rows.
 
 ### Integrations
 
@@ -136,17 +133,17 @@ Already wired. Sitemap auto-discovers routes. JSON-LD `@graph` (Person + Organiz
 ## Project intent (do not drift)
 
 - **"Working notebook in public", not a brochure.** Lived-in beats polished. Concrete beats abstract: numbers, dollar figures, dates, named tools.
-- **Vercel-aware editorial aesthetic.** Geist + cobalt + shadow-as-border + numbered eyebrows + `◇` chapter dividers + bracket-titled writing entries + issue-stamp footer.
-- **Mobile-no-scroll target on home.** Identity + tagline + bio + Sydney/time + nav + start of NOW visible above the fold on a 390×844 viewport.
+- **Sketchbook aesthetic, after grug and Arin.** One screen at a time, thin shaky line drawings with lots of air, two colours, words typed on in the bottom 30%. Professional, not childish: objects, not characters.
+- **Every section fits a 390×844 viewport with no page scroll.** Only the open "more" panel scrolls.
 - Use the **`impeccable:*`** skills for design work. The owner explicitly chose this design system.
 - Keep the dependency tree small. Reach for `astro add` only when a feature genuinely needs it.
 
 ## Research and context docs
 
-- `.impeccable.md` — design context for impeccable skills (philosophy, tokens, principles, anti-patterns specific to this site). Read this first when designing.
-- `docs/research/minimal-personal-sites.md` — survey of 16 minimal personal sites, signature moves, anti-patterns
-- `docs/research/aeo.md` — Answer Engine Optimization research (entity disambiguation, schema patterns)
-- `docs/research/linkedin-sync.md` — why LinkedIn-personal-post sync isn't possible cleanly in 2026
+- `.impeccable.md`: design context for impeccable skills (philosophy, tokens, principles, anti-patterns specific to this site). Read this first when designing.
+- `docs/research/minimal-personal-sites.md`: survey of 16 minimal personal sites, signature moves, anti-patterns
+- `docs/research/aeo.md`: Answer Engine Optimization research (entity disambiguation, schema patterns)
+- `docs/research/linkedin-sync.md`: why LinkedIn-personal-post sync isn't possible cleanly in 2026
 
 ## When in doubt
 
