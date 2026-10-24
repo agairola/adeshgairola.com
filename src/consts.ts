@@ -18,7 +18,6 @@ export const GITHUB_URL = 'https://github.com/agairola';
 export const RAXIT_GITHUB_URL = 'https://github.com/raxITlabs';
 export const YOUTUBE_URL = 'https://www.youtube.com/@raxITLabs';
 
-export const AI_SECURITY_CIRCLE_URL = 'https://www.meetup.com/ai-security-circle/';
 export const AI_ENGINEER_MELBOURNE_URL = 'https://aiengineer.com.au';
 
 export const EMAIL = 'hi@adeshgairola.com';

@@ -1,7 +1,7 @@
 ---
 // Every route renders the whole sketchbook with one section open. Client-side,
 // src/scripts/sketchbook.ts swaps sections in place and keeps the URL in sync.
-import { sections, raxitMore, workMore, openSource, careerLine, type SectionId } from '../data/sketchbook';
+import { sections, raxitMore, workMore, labs, openSource, careerLine, type SectionId } from '../data/sketchbook';
 import { now } from '../data/now';
 import { credentials } from '../data/background';
 import { featuredWriting } from '../data/featured-writing';
@@ -17,7 +17,6 @@ import {
 	GITHUB_URL,
 	EMAIL,
 	CALENDAR_URL,
-	AI_SECURITY_CIRCLE_URL,
 } from '../consts';
 
 interface Props {
@@ -95,7 +94,6 @@ const bar = sections.filter((s) => s.label);
 										{raxitMore.map((p) => <p>{p}</p>)}
 										<p class="links">
 											<a class="u" href={RAXIT_URL}>raxitlabs.com ↗</a>
-											<a class="u" href={RAXIT_LABS_URL}>the labs ↗</a>
 										</p>
 									</>
 								)}
@@ -110,9 +108,26 @@ const bar = sections.filter((s) => s.label);
 												</li>
 											))}
 										</ul>
+									</>
+								)}
+
+								{s.id === 'labs' && (
+									<>
+										<ul class="list projects">
+											{labs.map((l) => (
+												<li>
+													<a href={l.url}>{l.title}</a>
+													<span class="y">{l.when}</span>
+													<span class="note">{l.note}</span>
+												</li>
+											))}
+										</ul>
 										<p>
-											<span class="soft">open source. </span>
+											<span class="soft">also open source. </span>
 											{openSource.map((r, i) => (<><a class="u" href={r.url}>{r.name}</a>{i < openSource.length - 1 ? ', ' : ''}</>))}
+										</p>
+										<p class="links">
+											<a class="u" href={RAXIT_LABS_URL}>all of the labs ↗</a>
 										</p>
 									</>
 								)}
@@ -137,9 +152,6 @@ const bar = sections.filter((s) => s.label);
 								{s.id === 'now' && (
 									<>
 										{now.more.map((p) => <p>{p}</p>)}
-										<p>
-											<a class="u" href={AI_SECURITY_CIRCLE_URL}>ai security circle ↗</a>
-										</p>
 										<p class="soft">updated {now.updated.toLowerCase()}.</p>
 									</>
 								)}

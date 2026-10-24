@@ -5,7 +5,7 @@
 export const now = {
 	updated: 'October 2026',
 	more: [
-		'19 systems tested so far, 10k checks each.',
+		'the benchmark is at v1.0.0: 19 systems, 9,975 checks.',
 		'thinking about trust boundaries when the boundary is the model.',
 	],
 };
