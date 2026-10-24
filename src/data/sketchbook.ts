@@ -123,10 +123,13 @@ export const workMore: WorkItem[] = [
 	{ text: 'network security at hcltech and infosys', year: '2009' },
 ];
 
-/** Projects from https://raxitlabs.com/labs, newest first. */
 export type LabProject = { title: string; when: string; note: string; url: string };
 
-export const labs: LabProject[] = [
+/**
+ * The labs list is pulled from raxitlabs.com at build time (src/lib/labs.ts).
+ * This copy is only used if that fails, so the section is never empty.
+ */
+export const labsFallback: LabProject[] = [
 	{
 		title: 'can a decision model be your guardrail?',
 		when: 'oct 2026',

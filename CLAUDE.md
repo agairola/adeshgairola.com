@@ -94,7 +94,7 @@ All structured content lives in `src/data/*.ts`:
 - `featured-writing.ts`: curated LinkedIn permalinks with take lines
 - `principles.ts`: How I Think principles (currently unused on any page; available)
 - `background.ts`: timeline rows, education, certifications, recognition, bioIntro
-- `sketchbook.ts`: the seven sections (path, title, description, drawing, glance lines) plus the short "more" copy for raxIT and work, the labs projects, the open-source list and the career line
+- `sketchbook.ts`: the seven sections (path, title, description, drawing, glance lines) plus the short "more" copy for raxIT and work, the labs fallback list, the open-source list and the career line
 - `now.ts`: `updated` date and the "more" lines for the now section
 - `testimonials.ts`: full testimonials with names + a role-only `homeTestimonial` for the home pull-quote
 
@@ -103,6 +103,8 @@ There are no `src/content/` collections. To update content: edit the relevant `.
 ### Dynamic content
 
 `src/lib/feeds.ts` exports `fetchFeed`, `mergeAndDedupe`, `formatRelativeDate`. RSS is fetched at build time from raxIT Labs (`https://raxitlabs.com/feed.xml`) and Substack (`https://agairola.substack.com/feed`). raxIT first so canonical URLs win on cross-posts. `src/lib/recent.ts` fetches both once per build and shares the result; the writing section shows the 5 newest, falling back to `featured-writing.ts` if the feeds are down.
+
+raxitlabs.com has no labs feed, so `src/lib/labs.ts` reads the labs list at build time from its sitemap (every `/labs/<slug>` page except `/labs/theme/*`) and each page's `og:title`, `og:description` and `article:published_time`. Newest first, up to 6. Title is the part of `og:title` before the colon; the note is the first sentence of the description; em dashes are replaced. If that fails, `labsFallback` in `sketchbook.ts` is used. The daily `Refresh feeds` workflow (`.github/workflows/refresh-feeds.yml`) rebuilds the site, which picks up new blog posts and new labs projects.
 
 ### Site metadata in `src/consts.ts`
 
