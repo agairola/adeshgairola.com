@@ -1,6 +1,9 @@
 // Copy for the one-screen sections. Each section shows a drawing, a few lines in
 // the bottom 30% of the screen, and a "more" panel with the detail.
-// Lowercase on purpose (the sketchbook voice). Brand names keep their casing.
+// Lowercase on purpose (the sketchbook voice). Acronyms (AI, AWS, CEO, APRA) and
+// brand and product names keep their casing.
+
+import { homeTestimonial } from './testimonials';
 
 export type SectionId = 'hello' | 'raxit' | 'labs' | 'work' | 'writing' | 'now' | 'side' | 'about';
 
@@ -16,6 +19,8 @@ export type Section = {
 	description: string;
 	drawing: Drawing;
 	lines: string[];
+	/** A pull-quote shown on the main screen under the lines. */
+	quote?: { text: string; role: string };
 };
 
 export const sections: Section[] = [
@@ -28,8 +33,9 @@ export const sections: Section[] = [
 		drawing: 'desk',
 		lines: [
 			"hi, i'm adesh.",
-			'i build security for ai, and i use ai to build security.',
-			'founder and ceo of raxIT Labs, in sydney.',
+			'i build security for AI, and i use AI to build security.',
+			"i built AWS's ANZ AI security practice and co-wrote its threat model for AI apps.",
+			'founder and CEO of raxIT Labs, in sydney.',
 		],
 	},
 	{
@@ -41,9 +47,9 @@ export const sections: Section[] = [
 			'raxIT Labs builds security for AI. raxIT AI finds the ways an agent can be tricked; raxIT Studio uses AI for security work.',
 		drawing: 'hex',
 		lines: [
-			'raxIT Labs builds security for ai.',
+			'raxIT Labs builds security for AI.',
 			'raxIT AI finds the ways an agent can be tricked.',
-			'on the side, raxIT Studio uses ai for security work.',
+			'on the side, raxIT Studio uses AI for security work.',
 		],
 	},
 	{
@@ -68,7 +74,7 @@ export const sections: Section[] = [
 			'Eight years at AWS, the last two building its ANZ AI security practice. Before that, Cisco and HCLTech.',
 		drawing: 'layers',
 		lines: [
-			'eight years at aws. the last two building its anz ai security practice.',
+			'eight years at AWS. the last two building its ANZ AI security practice.',
 			'before that, cisco and hcltech.',
 		],
 	},
@@ -80,7 +86,7 @@ export const sections: Section[] = [
 		description:
 			'Writing on agent identity, models in production and AI policy, pulled from raxIT Labs and Substack.',
 		drawing: 'book',
-		lines: ['i write about agent identity, models in production and ai policy.'],
+		lines: ['i write about agent identity, models in production and AI policy.'],
 	},
 	{
 		id: 'now',
@@ -100,12 +106,12 @@ export const sections: Section[] = [
 		label: 'cocoon',
 		title: 'Side projects',
 		description:
-			'Adesh Gairola learns by building things outside security. Right now that is myCocoon, a private AI pregnancy companion for iPhone with a core user base.',
+			'myCocoon, a privacy-first AI pregnancy companion for iPhone: health data is worked out on the phone and cloud AI is off by default. Built by Adesh Gairola on the side, with a core user base.',
 		drawing: 'phone',
 		lines: [
-			"on the side, i learn by building things that aren't security.",
-			"right now that's myCocoon, a private ai pregnancy companion for iPhone.",
-			'it has a core user base.',
+			'on the side, i build myCocoon, a private pregnancy companion.',
+			'health data stays on the phone. cloud AI is off by default.',
+			"it has a core user base, and it's how i learn outside security.",
 		],
 	},
 	{
@@ -116,7 +122,8 @@ export const sections: Section[] = [
 		description:
 			'15 years in security: networks first, then cloud, now AI. Career, credentials and how to get in touch.',
 		drawing: 'ribbon',
-		lines: ['15 years in security. networks first, then cloud, now ai.'],
+		lines: ['15 years in security. networks first, then cloud, now AI.'],
+		quote: { text: homeTestimonial.quote, role: homeTestimonial.role },
 	},
 ];
 
@@ -128,19 +135,19 @@ export const raxitMore = [
 
 /** myCocoon detail, from https://trymycocoon.com. Keep to what the site says. */
 export const sideMore = [
-	'it reads what your iPhone already records, like sleep, resting heart rate, kicks and mood, and works it out on the phone itself.',
-	'cloud ai is off by default. journal text and photos stay on the phone or in your own iCloud.',
-	'live on the app store, built for ios 26.',
+	'it reads what your iPhone already records, like sleep, resting heart rate, kicks and mood.',
+	'with cloud AI off, journal entries and photos stay on the phone or in your own iCloud. turned on, journal text and photos still never reach it.',
+	'live on the App Store, built for iOS 26.',
 ];
 
 export type WorkItem = { text: string; year: string };
 
 export const workMore: WorkItem[] = [
-	{ text: 'co-wrote the reference threat model for ai and agentic apps, now in aws threat composer', year: '2024' },
-	{ text: 'built the anz ai security consulting practice at aws, from zero', year: '2023' },
-	{ text: 'led the rollout of proactive controls in aws control tower', year: '2023' },
-	{ text: 'the guardrail layer that cleared the first bank genai deployments', year: '2023' },
-	{ text: "led cisco's apac vpn security team", year: '2012' },
+	{ text: 'co-wrote the reference threat model for AI and agentic apps, now in AWS Threat Composer', year: '2024' },
+	{ text: 'built the ANZ AI security consulting practice at AWS, from zero', year: '2023' },
+	{ text: 'led the rollout of proactive controls in AWS Control Tower', year: '2023' },
+	{ text: 'the guardrail layer that cleared the first bank GenAI deployments under APRA CPS 234', year: '2023' },
+	{ text: "led cisco's APAC VPN security team", year: '2012' },
 	{ text: 'network security at hcltech and infosys', year: '2009' },
 ];
 
@@ -158,13 +165,13 @@ export const labsFallback: LabProject[] = [
 		url: 'https://raxitlabs.com/labs/decision-models-as-guardrails',
 	},
 	{
-		title: 'ai security threat intelligence',
+		title: 'AI security threat intelligence',
 		when: 'sep 2026',
 		note: 'eight public feeds, hundreds of evidence-backed threat patterns and a 58-rule open-source scanner.',
 		url: 'https://raxitlabs.com/labs/threat-intel-pipeline',
 	},
 	{
-		title: 'nla audit',
+		title: 'NLA audit',
 		when: 'may 2026',
 		note: 'reads what an open-weight model is computing at each token, so you can stop when output and thought disagree.',
 		url: 'https://raxitlabs.com/labs/nla-audit',
@@ -196,7 +203,7 @@ export const openSource: Repo[] = [
 export const careerLine: [string, string][] = [
 	['2009', 'hcltech'],
 	['2012', 'cisco'],
-	['2017', 'aws'],
-	['2023', 'aws ai'],
+	['2017', 'AWS'],
+	['2023', 'AWS AI'],
 	['2025', 'raxIT'],
 ];

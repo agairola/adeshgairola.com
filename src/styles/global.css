@@ -266,6 +266,28 @@ main:focus-visible {
 	}
 }
 
+/* A pull-quote on the main screen. It settles in once the lines have typed. */
+.quote {
+	margin: 4px 0 2px;
+}
+
+.quote blockquote {
+	margin: 0;
+	font-size: clamp(19px, 0.8rem + 0.6vw, 22px);
+	line-height: 1.35;
+	text-wrap: balance;
+}
+
+.quote figcaption {
+	margin-top: 2px;
+	font-size: 15px;
+	color: var(--soft);
+}
+
+.js .quote {
+	animation: fade 600ms ease-out 1.2s both;
+}
+
 /* Progressive disclosure. Without JS the detail simply shows. */
 
 .more {
@@ -557,7 +579,16 @@ main:focus-visible {
 /* Short screens (landscape phones): give the words more room. */
 @media (max-height: 560px) {
 	.card {
-		grid-template-rows: auto minmax(72px, 1fr) minmax(46%, max-content);
+		grid-template-rows: auto minmax(56px, 1fr) minmax(46%, max-content);
+	}
+
+	.line {
+		font-size: 19px;
+		margin-bottom: 0.3em;
+	}
+
+	.top {
+		padding-block: 2px;
 	}
 
 	/* No room for both: the drawing steps aside while the detail is open. */
@@ -580,6 +611,7 @@ main:focus-visible {
 	}
 
 	.sect,
+	.js .quote,
 	.js .book.open .detail {
 		animation: none;
 	}
