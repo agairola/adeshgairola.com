@@ -121,7 +121,7 @@ In `src/styles/global.css`. Two colours only: `--bg` (paper, `#fcfbf8`) and `--i
 ### Typography (do not drift)
 
 - Shantell Sans Variable (`@fontsource-variable/shantell-sans/full.css`), the face Arin uses, with `INFM` and `BNCE` at 0 so it reads calm, not cartoony.
-- Lowercase voice everywhere except brand and product names.
+- Lowercase voice everywhere except acronyms (AI, AWS, CEO, APRA, ...) and brand and product names. Text pulled in from feeds, raxitlabs.com and `background.ts` goes through `voice()` in `src/lib/voice.ts`, which lowercases and restores those.
 - Glance lines 21 to 28px; detail 17 to 18px; no boxes or shadows, dashed rules (3 on, 4 off) between list rows.
 
 ### Integrations
