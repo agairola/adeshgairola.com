@@ -7,8 +7,12 @@
 // - The scribbled dot swaps the two colours (paper and ink) for another light pair.
 // Section links are real URLs; this script swaps sections in place and keeps
 // history in sync, so the site still works without it.
+// - The ♪ button turns on music and sound effects (src/scripts/sound.ts). Its ink line
+//   moves with the music and lies flat when it is off. The pen makes a graphite sound
+//   while a drawing draws on. While the coffee brews on hello, the steam over the mug stirs.
 
 import { DOODLES } from './doodles';
+import { Sound } from './sound';
 
 type RGB = [number, number, number];
 type Pt = [number, number];
@@ -106,6 +110,42 @@ function trace(ctx: CanvasRenderingContext2D, pts: Pt[], ox: number, oy: number,
 		if (i) ctx.lineTo(x, y);
 		else ctx.moveTo(x, y);
 	}
+}
+
+const SYDNEY = new Intl.DateTimeFormat('en-AU', {
+	timeZone: 'Australia/Sydney',
+	hour: 'numeric',
+	minute: 'numeric',
+	second: 'numeric',
+	hourCycle: 'h23',
+});
+
+/**
+ * The clock's two hands at the time in Sydney right now, as pen strokes from the
+ * centre (100, 74) out: hour 26 long, minute 38 long, 12 o'clock straight up.
+ */
+function sydneyNow() {
+	const parts = SYDNEY.formatToParts(new Date());
+	const part = (t: string) => Number(parts.find((p) => p.type === t)?.value || 0);
+	return { h: part('hour'), m: part('minute'), sec: part('second') };
+}
+
+/** The label under the clock, in the site's lowercase voice: "2:12am in sydney". */
+function sydneyLabel(): string {
+	const { h, m } = sydneyNow();
+	return `${h % 12 || 12}:${String(m).padStart(2, '0')}${h < 12 ? 'am' : 'pm'} in sydney`;
+}
+
+function sydneyHands(): Pt[][] {
+	const { h, m, sec } = sydneyNow();
+	const hand = (turn: number, len: number): Pt[] => {
+		const a = turn * Math.PI * 2;
+		const n = Math.ceil(len / 2);
+		const out: Pt[] = [];
+		for (let i = 0; i <= n; i++) out.push([100 + Math.sin(a) * len * (i / n), 74 - Math.cos(a) * len * (i / n)]);
+		return out;
+	};
+	return [hand(((h % 12) + m / 60) / 12, 26), hand((m + sec / 60) / 60, 38)];
 }
 
 /** Sample every drawing's paths into points once, with a hidden SVG path. */
@@ -209,6 +249,7 @@ class Sketchbook {
 	private revealRaf = 0;
 	private typeT = 0;
 	private active = '';
+	private font = '';
 	private prep = prepare();
 	private paper: Paper | null;
 	private stage: HTMLCanvasElement;
@@ -218,6 +259,11 @@ class Sketchbook {
 	private heading: HTMLElement | null;
 	private caret = Object.assign(document.createElement('i'), { className: 'caret' });
 	private career: [string, string][];
+	private sound = new Sound(this.reduced);
+	private soundBtn: HTMLButtonElement | null;
+	private wave: HTMLCanvasElement | null = null;
+	private waveAmp = 0;
+	private wavePhase = 0;
 
 	constructor(private root: HTMLElement) {
 		const paperEl = root.querySelector<HTMLCanvasElement>('[data-paper]');
@@ -229,6 +275,12 @@ class Sketchbook {
 		this.navs = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-bar] a[data-go]'));
 		this.heading = root.querySelector<HTMLElement>('[data-heading]');
 		this.career = JSON.parse(this.stage.dataset.career || '[]');
+		this.soundBtn = root.querySelector<HTMLButtonElement>('[data-sound]');
+		this.wave = root.querySelector<HTMLCanvasElement>('[data-wave]');
+		// Sound that was on stays on across reloads. If the browser holds audio back
+		// until a tap, the button still reads on and its line stays flat until it plays.
+		if (this.sound.remembered) this.sound.set(true);
+		this.syncSound(this.sound.on);
 		this.applyVars();
 
 		root.addEventListener('click', (e) => this.onClick(e));
@@ -242,6 +294,12 @@ class Sketchbook {
 				this.frame = (this.frame + 1) % 3;
 				this.drawAll();
 			}, BOIL_MS);
+		}
+		// With reduced motion nothing redraws on the boil clock, so move the clock's hands every 20s.
+		if (this.reduced) {
+			window.setInterval(() => {
+				if (!document.hidden && this.active === 'now') this.drawAll();
+			}, 20000);
 		}
 		const start = () => this.show(root.dataset.active || 'hello', false, true);
 		document.fonts.ready.then(start, start);
@@ -265,6 +323,14 @@ class Sketchbook {
 			return;
 		}
 		if (t.closest('[data-more]')) return this.setOpen(!this.root.classList.contains('open'));
+		if (t.closest('[data-sound]')) {
+			const on = this.sound.toggle();
+			this.syncSound(on);
+			// Turning sound on replays the current lines, so the typing is heard from the start.
+			const cur = this.sections.find((s) => s.dataset.section === this.active);
+			if (on && cur) this.type(cur);
+			return;
+		}
 		if (t.closest('[data-dot]')) this.shuffle();
 	}
 
@@ -289,9 +355,18 @@ class Sketchbook {
 		document.title = next.dataset.title || document.title;
 		this.startReveal();
 		this.type(next);
+		this.sound.show(id);
+	}
+
+	private syncSound(on: boolean) {
+		if (!this.soundBtn) return;
+		this.soundBtn.setAttribute('aria-pressed', String(on));
+		this.soundBtn.title = on ? 'sound on' : 'sound off';
+		this.drawWave();
 	}
 
 	private setOpen(open: boolean) {
+		if (open !== this.root.classList.contains('open')) this.sound.more(open);
 		this.root.classList.toggle('open', open);
 		this.root.querySelectorAll<HTMLButtonElement>('[data-more]').forEach((b) => {
 			b.setAttribute('aria-expanded', String(open));
@@ -311,6 +386,10 @@ class Sketchbook {
 		const tick = (now: number) => {
 			this.reveal = Math.min(1, (now - t0) / REVEAL_MS);
 			this.drawDoodle(this.stage);
+			// The pen slows as the drawing finishes (the reveal eases out), and lifts
+			// briefly now and then, like starting a new stroke.
+			const lift = Math.sin(this.reveal * 37) > 0.85 ? 0.15 : 1;
+			this.sound.pen(this.reveal < 1 ? (1 - this.reveal) * lift : 0);
 			if (this.reveal < 1) this.revealRaf = requestAnimationFrame(tick);
 		};
 		this.revealRaf = requestAnimationFrame(tick);
@@ -337,6 +416,7 @@ class Sketchbook {
 			p.out.textContent = p.text.slice(0, ci);
 			p.out.appendChild(caret);
 			const ch = p.text[ci - 1];
+			this.sound.key(ch);
 			let delay = 14 + Math.random() * 14;
 			if (ch === ',' || ch === ':') delay += 90;
 			if (ch === '.' || ch === '?' || ch === '!') delay += 160;
@@ -358,6 +438,46 @@ class Sketchbook {
 	private drawAll() {
 		this.paper?.draw(this.frame, this.cur.bg, this.cur.ink);
 		for (const cv of this.canvases) this.drawDoodle(cv);
+		this.drawWave();
+	}
+
+	/** The ♪ button's ink line: it moves with the music and lies flat when sound is off. */
+	private drawWave() {
+		const cv = this.wave;
+		if (!cv) return;
+		const dpr = Math.min(window.devicePixelRatio || 1, 2);
+		const W = cv.clientWidth;
+		const H = cv.clientHeight;
+		if (!W || !H) return;
+		if (cv.width !== Math.round(W * dpr)) {
+			cv.width = Math.round(W * dpr);
+			cv.height = Math.round(H * dpr);
+		}
+		const ctx = cv.getContext('2d');
+		if (!ctx) return;
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+		ctx.clearRect(0, 0, W, H);
+		const on = this.sound.on;
+		const live = this.sound.playing;
+		// Ease toward the music's level so the line swells, never jumps.
+		const target = live ? (this.reduced ? 0.5 : Math.max(0.25, this.sound.level())) : 0;
+		this.waveAmp = this.reduced ? target : this.waveAmp + (target - this.waveAmp) * 0.35;
+		if (!this.reduced) this.wavePhase += 1.3;
+		const seed = SEEDS[this.frame];
+		const pts: Pt[] = [];
+		const n = 24;
+		for (let i = 0; i <= n; i++) {
+			const x = 1 + (i / n) * (W - 2);
+			const env = Math.sin((i / n) * Math.PI);
+			const y = H / 2 + Math.sin(i * 0.9 + this.wavePhase) * env * this.waveAmp * (H / 2 - 2);
+			pts.push([x, y]);
+		}
+		ctx.strokeStyle = hexOf(on ? this.cur.ink : mixC(this.cur.ink, this.cur.bg, 0.45));
+		ctx.lineWidth = 1.4;
+		ctx.lineCap = 'round';
+		ctx.lineJoin = 'round';
+		trace(ctx, jit(pts, seed, 0.35, 90), 0, 0, 1);
+		ctx.stroke();
 	}
 
 	private drawDoodle(cv: HTMLCanvasElement) {
@@ -387,8 +507,10 @@ class Sketchbook {
 		if (kind === 'oval') return this.drawOval(ctx, W, H, seed);
 		if (kind === 'ribbon') return this.drawRibbon(ctx, W, H, seed, rv);
 		const D = DOODLES[kind];
-		const P = this.prep[kind];
+		let P = this.prep[kind];
 		if (!D || !P) return;
+		// The clock on now always shows the time in Sydney: its last two strokes are the hands.
+		if (kind === 'clock') P = { ...P, s: [...P.s.slice(0, -2), ...sydneyHands()] };
 		const s = Math.min((W * 0.8) / D.w, (H * 0.86) / D.h, 2.3);
 		const ox = (W - D.w * s) / 2;
 		const oy = (H - D.h * s) * 0.6;
@@ -406,13 +528,28 @@ class Sketchbook {
 		}
 		const total = P.s.reduce((t, pts) => t + pts.length, 0);
 		let budget = Math.round(rv * total);
+		// The desk's steam wisps (strokes 9 and 10) stir while the coffee brews.
+		const steam = kind === 'desk' && this.sound.brewing && !this.reduced;
 		P.s.forEach((pts, i) => {
 			if (budget < 2) return;
 			const k = Math.min(pts.length, budget);
 			budget -= pts.length;
-			trace(ctx, jit(pts, seed, amp, i), ox, oy, s, k);
+			const a = steam && (i === 9 || i === 10) ? 2.2 : amp;
+			trace(ctx, jit(pts, seed, a, i), ox, oy, s, k);
 			ctx.stroke();
 		});
+		// Say whose time it is, under the clock, once the drawing is nearly done.
+		if (kind === 'clock' && fillA) {
+			const size = Math.max(14, Math.min(17, 7 * s));
+			this.font ||= getComputedStyle(this.root).getPropertyValue('--font').trim() || 'sans-serif';
+			ctx.font = `${size}px ${this.font}`;
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'top';
+			ctx.fillStyle = hexOf(mixC(this.cur.ink, this.cur.bg, 0.3));
+			ctx.globalAlpha = fillA;
+			ctx.fillText(sydneyLabel(), ox + 100 * s, oy + 134 * s);
+			ctx.globalAlpha = 1;
+		}
 	}
 
 	/** The scribbled dot: a lumpy ink disc hatched in the ground colour. */
@@ -522,6 +659,7 @@ class Sketchbook {
 
 	/** Half the time the next named pair, otherwise a fresh pale pair. */
 	private shuffle() {
+		this.sound.shuffle();
 		let pair: [string, string];
 		if (Math.random() > 0.5) {
 			this.palIdx = (this.palIdx + 1) % PAL.length;
