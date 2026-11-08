@@ -46,9 +46,14 @@ const bar = sections.filter((s) => s.label);
 	<div class="card">
 		<header class="top">
 			<a class="mark" href="/" data-go="hello">adesh.</a>
-			<button class="dot" type="button" data-dot aria-label="Shuffle colours">
-				<canvas data-doodle="dot" aria-hidden="true"></canvas>
-			</button>
+			<div class="tools">
+				<button class="snd" type="button" data-sound aria-pressed="false" aria-label="Music and sound">
+					<span aria-hidden="true">♪</span><canvas class="wave" data-wave aria-hidden="true"></canvas>
+				</button>
+				<button class="dot" type="button" data-dot aria-label="Shuffle colours">
+					<canvas data-doodle="dot" aria-hidden="true"></canvas>
+				</button>
+			</div>
 		</header>
 
 		<div class="stage" aria-hidden="true">
@@ -88,13 +93,13 @@ const bar = sections.filter((s) => s.label);
 							<div class="detail">
 								{s.id === 'hello' && (
 									<div class="contact">
-										<a class="oval" href={CALENDAR_URL}>
+										<a class="oval" href={CALENDAR_URL} target="_blank" rel="noopener">
 											<canvas data-doodle="oval" aria-hidden="true" />
 											book 30 minutes
 										</a>
 										<nav class="elsewhere" aria-label="Elsewhere">
-											<a href={LINKEDIN_URL}>linkedin ↗</a>
-											<a href={GITHUB_URL}>github ↗</a>
+											<a href={LINKEDIN_URL} target="_blank" rel="noopener">linkedin ↗</a>
+											<a href={GITHUB_URL} target="_blank" rel="noopener">github ↗</a>
 											<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
 										</nav>
 									</div>
@@ -104,7 +109,7 @@ const bar = sections.filter((s) => s.label);
 									<>
 										{raxitMore.map((p) => <p>{p}</p>)}
 										<p class="links">
-											<a class="u" href={RAXIT_URL}>raxitlabs.com ↗</a>
+											<a class="u" href={RAXIT_URL} target="_blank" rel="noopener">raxitlabs.com ↗</a>
 										</p>
 									</>
 								)}
@@ -127,7 +132,7 @@ const bar = sections.filter((s) => s.label);
 										<ul class="list projects">
 											{labs.map((l) => (
 												<li>
-													<a href={l.url}>{voice(l.title)}</a>
+													<a href={l.url} target="_blank" rel="noopener">{voice(l.title)}</a>
 													<span class="y">{l.when}</span>
 													<span class="note">{voice(l.note)}</span>
 												</li>
@@ -135,10 +140,10 @@ const bar = sections.filter((s) => s.label);
 										</ul>
 										<p>
 											<span class="soft">also open source. </span>
-											{openSource.map((r, i) => (<><a class="u" href={r.url}>{r.name}</a>{i < openSource.length - 1 ? ', ' : ''}</>))}
+											{openSource.map((r, i) => (<><a class="u" href={r.url} target="_blank" rel="noopener">{r.name}</a>{i < openSource.length - 1 ? ', ' : ''}</>))}
 										</p>
 										<p class="links">
-											<a class="u" href={RAXIT_LABS_URL}>all of the labs ↗</a>
+											<a class="u" href={RAXIT_LABS_URL} target="_blank" rel="noopener">all of the labs ↗</a>
 										</p>
 									</>
 								)}
@@ -148,14 +153,14 @@ const bar = sections.filter((s) => s.label);
 										<ul class="list">
 											{posts.map((p) => (
 												<li>
-													<a href={p.url}>{voice(p.title)}</a>
+													<a href={p.url} target="_blank" rel="noopener">{voice(p.title)}</a>
 													<span class="y">{p.when}</span>
 												</li>
 											))}
 										</ul>
 										<p class="links">
-											<a class="u" href={RAXIT_BLOG_URL}>everything on raxitlabs.com ↗</a>
-											<a class="u" href={SUBSTACK_URL}>substack ↗</a>
+											<a class="u" href={RAXIT_BLOG_URL} target="_blank" rel="noopener">everything on raxitlabs.com ↗</a>
+											<a class="u" href={SUBSTACK_URL} target="_blank" rel="noopener">substack ↗</a>
 										</p>
 									</>
 								)}
@@ -171,7 +176,7 @@ const bar = sections.filter((s) => s.label);
 									<>
 										{sideMore.map((p) => <p>{p}</p>)}
 										<p class="links">
-											<a class="u" href={COCOON_URL}>trymycocoon.com ↗</a>
+											<a class="u" href={COCOON_URL} target="_blank" rel="noopener">trymycocoon.com ↗</a>
 										</p>
 									</>
 								)}
@@ -188,13 +193,13 @@ const bar = sections.filter((s) => s.label);
 										<p>{voice(credentials.certifications.join(', '))}.</p>
 										<p class="soft">{voice(`${credentials.recognition.join(', ')}. ${credentials.education}`)}.</p>
 										<div class="contact">
-											<a class="oval" href={CALENDAR_URL}>
+											<a class="oval" href={CALENDAR_URL} target="_blank" rel="noopener">
 												<canvas data-doodle="oval" aria-hidden="true" />
 												book 30 minutes
 											</a>
 											<nav class="elsewhere" aria-label="Elsewhere">
-												<a href={LINKEDIN_URL}>linkedin ↗</a>
-												<a href={GITHUB_URL}>github ↗</a>
+												<a href={LINKEDIN_URL} target="_blank" rel="noopener">linkedin ↗</a>
+												<a href={GITHUB_URL} target="_blank" rel="noopener">github ↗</a>
 												<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
 											</nav>
 										</div>

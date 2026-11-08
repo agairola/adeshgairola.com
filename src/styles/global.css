@@ -166,8 +166,45 @@ main:focus-visible {
 	display: block;
 }
 
-.no-js .dot {
+.no-js .dot,
+.no-js .snd {
 	visibility: hidden;
+}
+
+.tools {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+}
+
+/* Music and sound: off by default, soft until it is on. */
+.snd {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	min-height: 44px;
+	padding: 0 10px;
+	border: 0;
+	background: none;
+	font: inherit;
+	font-size: 17px;
+	color: var(--soft);
+	cursor: pointer;
+}
+
+.snd[aria-pressed='true'] {
+	color: var(--ink);
+}
+
+/* The ink line beside the note: flat when off, moving with the music when on. */
+.snd .wave {
+	width: 26px;
+	height: 14px;
+	display: block;
+}
+
+.snd:active {
+	opacity: 0.55;
 }
 
 .stage {
